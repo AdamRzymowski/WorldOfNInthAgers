@@ -523,7 +523,21 @@ function openCard(node) {
     p.textContent = c.region;
     heading.append(p);
   }
-  head.append(logoElement(c, "card-logo"), heading);
+  // The logo doubles as a button to the community's main link.
+  const mainLink = (c.links ?? []).map((link) => safeUrl(link, linkInfo(link.type))).find(Boolean);
+  const logo = logoElement(c, "card-logo");
+  if (mainLink) {
+    const a = document.createElement("a");
+    a.className = "card-logo-link";
+    a.href = mainLink;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.setAttribute("aria-label", `Open ${c.name}`);
+    a.append(logo);
+    head.append(a, heading);
+  } else {
+    head.append(logo, heading);
+  }
   card.append(close, head);
 
   if (c.description) {

@@ -703,3 +703,16 @@ a.link:focus-visible {
     font-size: 15px;
   }
 }
+
+.card-logo-link {
+  display: inline-flex;
+  flex: none;
+  border-radius: 50%;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.card-logo-link:hover,
+.card-logo-link:focus-visible {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 3px var(--gold), 0 4px 12px rgb(0 0 0 / 0.4);
+}
