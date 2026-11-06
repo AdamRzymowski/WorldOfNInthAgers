@@ -1,0 +1,41 @@
+{
+  "country": "Italy",
+  "image": "assets/country-maps/italy.webp",
+  "regions": [
+    [
+      411,
+      865,
+      "Tunisia"
+    ],
+    [
+      307,
+      506,
+      "France"
+    ],
+    [
+      122,
+      810,
+      "Spain"
+    ],
+    [
+      1204,
+      460,
+      "Bosnia and Herz."
+    ],
+    [
+      1325,
+      690,
+      "Albania"
+    ],
+    [
+      67,
+      312,
+      null
+    ],
+    [
+      351,
+      797,
+      null
+    ]
+  ]
+}

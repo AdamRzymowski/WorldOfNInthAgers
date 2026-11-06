@@ -41,6 +41,7 @@ export async function loadHitmap(base = "data/hitmap") {
     width,
     height,
     labelPoints: info.labelPoints,
+    landmarks: info.landmarks,
 
     nameAt(x, y) {
       x = Math.floor(x);

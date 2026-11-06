@@ -1,0 +1,22 @@
+{
+  "country": "Greece",
+  "image": "assets/country-maps/greece.webp",
+  "regions": [
+    [
+      508,
+      230,
+      "Albania"
+    ],
+    [
+      346,
+      846,
+      "Libya"
+    ],
+    [
+      67,
+      306,
+      null
+    ]
+  ],
+  "foreign_gold": false
+}

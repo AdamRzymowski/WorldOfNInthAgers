@@ -1,0 +1,66 @@
+{
+  "country": "Ukraine",
+  "image": "assets/country-maps/ukraine.webp",
+  "regions": [
+    [
+      649,
+      656,
+      "Moldova"
+    ],
+    [
+      429,
+      570,
+      "Hungary"
+    ],
+    [
+      267,
+      584,
+      "Hungary"
+    ],
+    [
+      577,
+      949,
+      "Turkey"
+    ],
+    [
+      594,
+      872,
+      "Turkey"
+    ],
+    [
+      605,
+      883,
+      "Turkey"
+    ],
+    [
+      1103,
+      951,
+      "Turkey"
+    ],
+    [
+      1130,
+      862,
+      "Turkey"
+    ],
+    [
+      1138,
+      882,
+      "Turkey"
+    ],
+    [
+      807,
+      825,
+      null
+    ],
+    [
+      801,
+      838,
+      null
+    ],
+    [
+      802,
+      866,
+      null
+    ]
+  ]
+}

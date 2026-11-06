@@ -351,7 +351,7 @@ function loadMinimap(name) {
       Promise.all([d3.json(`${base}.json`), loadHitmap(`${base}-hitmap`)]).then(([config, hits]) => ({
         config,
         hits,
-        toMap: fitSpline(config.landmarks, 5),
+        toMap: fitSpline(config.landmarks ?? hits.landmarks, 5),
       }))
     );
   }

@@ -1,0 +1,61 @@
+{
+  "country": "Austria",
+  "image": "assets/country-maps/austria.webp",
+  "regions": [],
+  "extra_decorations": {
+    "compass low": [
+      [
+        60,
+        640
+      ],
+      [
+        270,
+        640
+      ],
+      [
+        270,
+        890
+      ],
+      [
+        60,
+        890
+      ]
+    ]
+  },
+  "areas": [
+    {
+      "country": "Switzerland",
+      "mode": "all",
+      "outline": [
+        [
+          62,
+          440
+        ],
+        [
+          220,
+          452
+        ],
+        [
+          262,
+          470
+        ],
+        [
+          300,
+          520
+        ],
+        [
+          330,
+          600
+        ],
+        [
+          310,
+          640
+        ],
+        [
+          62,
+          640
+        ]
+      ]
+    }
+  ]
+}

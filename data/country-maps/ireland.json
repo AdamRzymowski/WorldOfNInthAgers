@@ -1,0 +1,89 @@
+{
+  "country": "Ireland",
+  "image": "assets/country-maps/ireland.webp",
+  "regions": [
+    [
+      927,
+      135,
+      "United Kingdom"
+    ],
+    [
+      1013,
+      233,
+      "United Kingdom"
+    ],
+    [
+      1150,
+      250,
+      "United Kingdom"
+    ],
+    [
+      1317,
+      393,
+      "United Kingdom"
+    ],
+    [
+      1250,
+      650,
+      "United Kingdom"
+    ],
+    [
+      1399,
+      790,
+      "United Kingdom"
+    ],
+    [
+      1433,
+      663,
+      "United Kingdom"
+    ],
+    [
+      1151,
+      380,
+      "Isle of Man"
+    ]
+  ],
+  "areas": [
+    {
+      "country": "United Kingdom",
+      "outline": [
+        [
+          848,
+          118
+        ],
+        [
+          1045,
+          118
+        ],
+        [
+          1045,
+          352
+        ],
+        [
+          975,
+          348
+        ],
+        [
+          915,
+          335
+        ],
+        [
+          868,
+          318
+        ],
+        [
+          845,
+          280
+        ],
+        [
+          838,
+          230
+        ],
+        [
+          842,
+          170
+        ]
+      ]
+    }
+  ]
+}

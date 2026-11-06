@@ -1,3 +1,21 @@
 {
-  "Sweden": "data/country-maps/sweden"
+  "Austria": "data/country-maps/austria",
+  "Belarus": "data/country-maps/belarus",
+  "Canada": "data/country-maps/canada",
+  "Denmark": "data/country-maps/denmark",
+  "Finland": "data/country-maps/finland",
+  "France": "data/country-maps/france",
+  "Germany": "data/country-maps/germany",
+  "Greece": "data/country-maps/greece",
+  "Ireland": "data/country-maps/ireland",
+  "Italy": "data/country-maps/italy",
+  "Latvia": "data/country-maps/latvia",
+  "Lithuania": "data/country-maps/lithuania",
+  "Norway": "data/country-maps/norway",
+  "Portugal": "data/country-maps/portugal",
+  "Spain": "data/country-maps/spain",
+  "Sweden": "data/country-maps/sweden",
+  "Turkey": "data/country-maps/turkey",
+  "Ukraine": "data/country-maps/ukraine",
+  "United States of America": "data/country-maps/united-states"
 }

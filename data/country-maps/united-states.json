@@ -1,0 +1,27 @@
+{
+  "country": "United States of America",
+  "image": "assets/country-maps/united-states.webp",
+  "regions": [
+    [
+      596,
+      837,
+      "Mexico"
+    ],
+    [
+      507,
+      843,
+      "Mexico"
+    ],
+    [
+      1233,
+      172,
+      null
+    ],
+    [
+      1230,
+      210,
+      null
+    ]
+  ],
+  "fit": "largest"
+}

@@ -1,0 +1,21 @@
+{
+  "country": "Spain",
+  "image": "assets/country-maps/spain.webp",
+  "regions": [
+    [
+      499,
+      908,
+      "Morocco"
+    ],
+    [
+      1404,
+      797,
+      "Algeria"
+    ],
+    [
+      520,
+      376,
+      "Spain"
+    ]
+  ]
+}

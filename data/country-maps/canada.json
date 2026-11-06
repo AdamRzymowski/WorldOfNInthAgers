@@ -1,0 +1,81 @@
+{
+  "country": "Canada",
+  "image": "assets/country-maps/canada.webp",
+  "regions": [
+    [
+      377,
+      516,
+      "United States of America"
+    ],
+    [
+      258,
+      461,
+      "United States of America"
+    ],
+    [
+      259,
+      554,
+      "United States of America"
+    ],
+    [
+      266,
+      606,
+      "United States of America"
+    ],
+    [
+      265,
+      676,
+      "United States of America"
+    ],
+    [
+      293,
+      713,
+      "United States of America"
+    ],
+    [
+      144,
+      820,
+      "United States of America"
+    ],
+    [
+      223,
+      862,
+      "United States of America"
+    ],
+    [
+      1079,
+      907,
+      "United States of America"
+    ],
+    [
+      941,
+      877,
+      "United States of America"
+    ],
+    [
+      1000,
+      150,
+      "Greenland"
+    ],
+    [
+      1093,
+      259,
+      null
+    ],
+    [
+      1164,
+      297,
+      null
+    ],
+    [
+      1355,
+      700,
+      "Canada"
+    ],
+    [
+      1274,
+      767,
+      "Canada"
+    ]
+  ]
+}
