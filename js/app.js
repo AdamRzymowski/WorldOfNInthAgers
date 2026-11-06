@@ -289,7 +289,7 @@ document.getElementById("country-search").addEventListener("submit", (event) => 
 
 let CW = 800; // size of the country map's drawing area (changes for minimaps)
 let CH = 560;
-const MARKER_R = 24;
+const MARKER_R = 48;
 
 const dialog = document.getElementById("country-dialog");
 const title = document.getElementById("country-title");
@@ -514,7 +514,7 @@ function drawMarkers() {
       }
     });
 
-  badge.append("circle").attr("class", "badge-ring").attr("r", MARKER_R + 3);
+  badge.append("circle").attr("class", "badge-ring").attr("r", MARKER_R + 5);
   badge.each(function (d, i) {
     const g = d3.select(this);
     if (d.community.logo) {
@@ -537,7 +537,7 @@ function drawMarkers() {
   badge
     .append("text")
     .attr("class", "badge-label")
-    .attr("y", MARKER_R + 18)
+    .attr("y", MARKER_R + 26)
     .text((d) => d.community.shortName ?? d.community.name);
 }
 

@@ -407,7 +407,7 @@ button {
 .badge-ring {
   fill: var(--gold);
   stroke: var(--ink);
-  stroke-width: 1.5;
+  stroke-width: 2.5;
   filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.5));
 }
 
@@ -423,7 +423,7 @@ button {
   fill: var(--parchment-light);
   font-family: var(--display);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 30px;
   text-anchor: middle;
   pointer-events: none;
 }
@@ -432,11 +432,11 @@ button {
   fill: var(--ink);
   font-family: var(--display);
   font-weight: 700;
-  font-size: 13px;
+  font-size: 20px;
   text-anchor: middle;
   paint-order: stroke;
   stroke: var(--parchment-light);
-  stroke-width: 4px;
+  stroke-width: 5px;
   stroke-linejoin: round;
   pointer-events: none;
 }
