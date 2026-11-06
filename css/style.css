@@ -46,6 +46,7 @@ button {
 /* ------------------------------------------------------------- world map */
 
 .world {
+  position: relative;
   max-width: 1774px;
   margin: 0 auto;
   padding: 16px;
@@ -129,6 +130,52 @@ button {
   white-space: nowrap;
   pointer-events: none;
   box-shadow: 0 2px 8px rgb(0 0 0 / 0.5);
+}
+
+.t9a-link {
+  position: absolute;
+  top: 26px;
+  right: calc(16px + 1.2%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: clamp(72px, 9%, 150px);
+  color: var(--parchment-light);
+  text-decoration: none;
+  transition: transform 0.15s;
+}
+
+.t9a-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 3px 6px rgb(0 0 0 / 0.55));
+}
+
+.t9a-link span {
+  padding: 3px 8px;
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  background: rgb(94 15 8 / 0.9);
+  font-family: var(--display);
+  font-size: clamp(9px, 0.95vw, 13px);
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.5);
+}
+
+.t9a-link:hover,
+.t9a-link:focus-visible {
+  transform: scale(1.04);
+}
+
+.t9a-link:hover span,
+.t9a-link:focus-visible span {
+  background: var(--blood);
 }
 
 .map-controls {
@@ -608,6 +655,23 @@ a.link:focus-visible {
   .ribbon {
     padding: 4px 20px;
     margin-right: 40px;
+  }
+
+  .t9a-link {
+    position: static;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 8px;
+    width: auto;
+    margin-bottom: 8px;
+  }
+
+  .t9a-link img {
+    width: 34px;
+  }
+
+  .t9a-link span {
+    font-size: 12px;
   }
 
   .map-controls button {
