@@ -1,0 +1,48 @@
+{
+  "country": "Netherlands",
+  "image": "assets/country-maps/netherlands.webp",
+  "highlight": {
+    "hue": [
+      33,
+      100
+    ],
+    "min_saturation": 120,
+    "min_value": 70
+  },
+  "regions": [
+    [
+      320,
+      860,
+      "Belgium"
+    ],
+    [
+      750,
+      880,
+      "Belgium"
+    ]
+  ],
+  "areas": [
+    {
+      "country": "Germany",
+      "mode": "all",
+      "outline": [
+        [
+          1050,
+          640
+        ],
+        [
+          1470,
+          600
+        ],
+        [
+          1470,
+          950
+        ],
+        [
+          1040,
+          950
+        ]
+      ]
+    }
+  ]
+}

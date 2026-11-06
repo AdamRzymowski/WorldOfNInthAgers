@@ -1,0 +1,6 @@
+{
+  "country": "Belgium",
+  "image": "assets/country-maps/belgium.webp",
+  "highlight": {"hue": [33, 100], "min_saturation": 120, "min_value": 70},
+  "regions": []
+}

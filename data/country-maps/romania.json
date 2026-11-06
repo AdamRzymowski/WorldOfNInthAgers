@@ -1,0 +1,100 @@
+{
+  "country": "Romania",
+  "image": "assets/country-maps/romania.webp",
+  "highlight": {
+    "hue": [
+      33,
+      100
+    ],
+    "min_saturation": 120,
+    "min_value": 70
+  },
+  "regions": [
+    [
+      1309,
+      451,
+      "Moldova"
+    ],
+    [
+      271,
+      565,
+      "Hungary"
+    ]
+  ],
+  "areas": [
+    {
+      "country": "Ukraine",
+      "mode": "all",
+      "outline": [
+        [
+          400,
+          60
+        ],
+        [
+          1470,
+          60
+        ],
+        [
+          1470,
+          240
+        ],
+        [
+          1300,
+          290
+        ],
+        [
+          1180,
+          200
+        ],
+        [
+          400,
+          200
+        ]
+      ]
+    },
+    {
+      "country": "Bulgaria",
+      "mode": "all",
+      "outline": [
+        [
+          700,
+          850
+        ],
+        [
+          1250,
+          830
+        ],
+        [
+          1250,
+          955
+        ],
+        [
+          700,
+          955
+        ]
+      ]
+    },
+    {
+      "country": "Serbia",
+      "mode": "all",
+      "outline": [
+        [
+          300,
+          760
+        ],
+        [
+          700,
+          760
+        ],
+        [
+          700,
+          955
+        ],
+        [
+          300,
+          955
+        ]
+      ]
+    }
+  ]
+}
