@@ -1,0 +1,47 @@
+{
+  "_readme": "Keys under \"countries\" must match the country name shown in the map tooltip. Each community needs a name and lat/lon; everything else is optional. See README.md.",
+  "countries": {
+    "Poland": [
+      {
+        "name": "Example Warsaw Ninth Agers",
+        "shortName": "Warsaw (example)",
+        "region": "Masovia",
+        "lat": 52.23,
+        "lon": 21.01,
+        "logo": "assets/logos/example-crest.svg",
+        "description": "Placeholder entry showing every kind of link. Replace it with a real community.",
+        "links": [
+          { "type": "discord", "label": "Join the server", "url": "https://discord.gg/example" },
+          { "type": "messenger", "label": "Ask for Jan Example" },
+          { "type": "facebook", "label": "Warsaw T9A players", "url": "https://www.facebook.com/groups/example" },
+          { "type": "website", "label": "example.com", "url": "https://example.com" },
+          { "type": "email", "label": "warsaw@example.com" }
+        ]
+      },
+      {
+        "name": "Example Kraków Wargamers",
+        "shortName": "Kraków (example)",
+        "region": "Lesser Poland",
+        "lat": 50.06,
+        "lon": 19.94,
+        "description": "Placeholder entry without a logo: a crest with initials is drawn instead.",
+        "links": [
+          { "type": "discord", "label": "Kraków channel", "url": "https://discord.gg/example" }
+        ]
+      }
+    ],
+    "United Kingdom": [
+      {
+        "name": "Example London League",
+        "shortName": "London (example)",
+        "region": "England",
+        "lat": 51.51,
+        "lon": -0.13,
+        "description": "Placeholder entry.",
+        "links": [
+          { "type": "whatsapp", "label": "Group chat", "url": "https://chat.whatsapp.com/example" }
+        ]
+      }
+    ]
+  }
+}
