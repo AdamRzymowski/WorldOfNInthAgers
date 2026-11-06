@@ -145,13 +145,32 @@ button {
   color: var(--parchment-light);
   text-decoration: none;
   transition: transform 0.15s;
+  isolation: isolate;
+}
+
+/* A thick cloud of black smoke behind the emblem so it stands out from the map. */
+.t9a-link::before {
+  content: "";
+  position: absolute;
+  inset: -14% -38% -10%;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 46% 30% at 50% 22%, rgb(8 4 2 / 0.9), transparent 72%),
+    radial-gradient(ellipse 40% 26% at 34% 48%, rgb(8 4 2 / 0.85), transparent 70%),
+    radial-gradient(ellipse 40% 26% at 66% 52%, rgb(8 4 2 / 0.85), transparent 70%),
+    radial-gradient(ellipse 50% 22% at 50% 80%, rgb(8 4 2 / 0.9), transparent 72%),
+    radial-gradient(ellipse 30% 18% at 24% 84%, rgb(20 12 6 / 0.7), transparent 70%),
+    radial-gradient(ellipse 30% 18% at 76% 88%, rgb(20 12 6 / 0.7), transparent 70%),
+    radial-gradient(ellipse 55% 50% at 50% 50%, rgb(8 4 2 / 0.6), transparent 75%);
+  filter: blur(9px);
+  pointer-events: none;
 }
 
 .t9a-link img {
   display: block;
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 3px 6px rgb(0 0 0 / 0.55));
+  filter: drop-shadow(0 0 6px rgb(0 0 0 / 0.9)) drop-shadow(0 3px 10px rgb(0 0 0 / 0.7));
 }
 
 .t9a-link span {
@@ -664,6 +683,10 @@ a.link:focus-visible {
     gap: 8px;
     width: auto;
     margin-bottom: 8px;
+  }
+
+  .t9a-link::before {
+    display: none; /* above the map on phones, already on a dark background */
   }
 
   .t9a-link img {
