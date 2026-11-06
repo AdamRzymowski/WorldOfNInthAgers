@@ -71,28 +71,61 @@ The entries currently in `communities.json` are placeholders marked
 
 ## How the map lines up
 
-The artwork is hand-drawn, so two things make clicks land on the right country:
+The artwork is hand-drawn, so its coastlines and borders don't follow real
+geography. Hovering and clicking use a **hit map** (`data/hitmap.png`) that
+labels every pixel of the artwork with the country it belongs to *as drawn*,
+so the highlighted area always matches the lines you can see. Open the site
+with `?debug` to see every country's area tinted.
 
-- **Hit map** (`data/hitmap.png`): every pixel of the artwork is labelled with
-  the country it belongs to, *as drawn*. Hovering and clicking use this, so the
-  highlighted area always matches the borders you can see. It's built from the
-  artwork's own ink lines: each enclosed region goes to the real country that
-  covers most of it.
-- **Calibration** ([`js/calibration.js`](js/calibration.js)): landmark points
-  that bend real geography onto the artwork. The hit map build uses it to
-  decide which country each drawn region is. Open the site with `?debug` to
-  see the warped real borders in red and the landmarks in blue. Each landmark
-  is `[longitude, latitude, imageX, imageY]` in pixels of
-  `assets/world-map.webp` (1774 × 887).
+[`tools/build_hitmap.py`](tools/build_hitmap.py) makes it:
 
-If you change the artwork or the landmarks, rebuild the hit map (needs Node,
-and Python with Pillow and numpy):
+1. Splits the artwork into the regions its pen lines enclose, ignoring
+   decorations (title, dragons, compass, ships, clouds, sea creatures).
+2. Bends real country shapes onto the drawing: a rough fit from the landmarks
+   in [`js/calibration.js`](js/calibration.js), then tile-by-tile shape
+   matching, then snapping every real coastline and border onto the nearest
+   drawn one.
+3. Gives each drawn region to the country that covers most of it.
+4. Applies [`tools/overrides.json`](tools/overrides.json): hand-checked fixes
+   for places where step 3 gets it wrong.
+
+### Fixing a country that's wrong
+
+Render a zoomed, labelled view of the area (artwork pixels, 1774 × 887):
 
 ```bash
 cd tools
-npm install
-npm run hitmap
+python review_hitmap.py balkans 880 280 1010 390 6
 ```
+
+That writes `tools/.cache/review/balkans.png` with each country tinted and
+named, and a coordinate grid. Then add a fix to `overrides.json`:
+
+- `"regions": [[x, y, "Country"]]` gives the whole drawn region containing
+  pixel (x, y) to that country (`null` makes it sea).
+- `"areas"` paints a traced outline. With `"mode": "relabel"` only drawn ink
+  and land inside the outline change, never open sea; `"mode": "remove"`
+  takes a country out of the outline.
+- `"merge"` treats one country as part of another where the artwork draws
+  them together.
+
+Country names are the ones shown in the map tooltip. Rebuild with:
+
+```bash
+cd tools
+npm install          # first time only
+npm run hitmap       # full rebuild, about a minute
+python build_hitmap.py --reuse-warp   # after editing only overrides.json, a few seconds
+```
+
+Needs Node, and Python with Pillow and numpy.
+
+### Choices made for disputed areas
+
+The artwork draws Somalia and Cyprus as single countries, so Somaliland and
+Northern Cyprus are merged into them. Crimea, drawn as its own small region,
+is pinned to Ukraine (the boundary data has it in Russia). Change these in
+`overrides.json` if you want something else.
 
 ## Credits
 

@@ -15,6 +15,7 @@ const out = countries.map((f) => {
   const polygons = f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates;
   return {
     name: f.properties.name,
+    lonlat: polygons,
     polygons: polygons.map((rings) =>
       rings.map((ring) =>
         ring.map(([lon, lat]) => toImage(wrapLongitude(lon, f.properties.name, wraps), lat).map((v) => +v.toFixed(1)))

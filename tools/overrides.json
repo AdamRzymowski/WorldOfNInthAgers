@@ -1,0 +1,883 @@
+{
+ "_readme": "Fixes for spots the automatic match gets wrong; check with review_hitmap.py. regions: [x, y, \"Country\"] pins the drawn region containing that pixel (null = sea). areas: traced outlines painted with a country; mode \"relabel\" only touches drawn ink and land inside, never open sea. merge: countries the artwork draws as part of another.",
+ "regions": [
+  [
+   904,
+   311,
+   "Slovenia"
+  ],
+  [
+   915,
+   313,
+   "Croatia"
+  ],
+  [
+   921,
+   323,
+   "Bosnia and Herz."
+  ],
+  [
+   937,
+   324,
+   "Serbia"
+  ],
+  [
+   961,
+   330,
+   "Bulgaria"
+  ],
+  [
+   941,
+   337,
+   "Macedonia"
+  ],
+  [
+   931,
+   341,
+   "Albania"
+  ],
+  [
+   959,
+   354,
+   null
+  ],
+  [
+   959,
+   369,
+   null
+  ],
+  [
+   785,
+   250,
+   "United Kingdom"
+  ],
+  [
+   799,
+   255,
+   "United Kingdom"
+  ],
+  [
+   974,
+   216,
+   null
+  ],
+  [
+   955,
+   232,
+   "Estonia"
+  ],
+  [
+   1025,
+   307,
+   null
+  ],
+  [
+   1067,
+   339,
+   "Armenia"
+  ],
+  [
+   1012,
+   312,
+   "Ukraine"
+  ],
+  [
+   1101,
+   417,
+   null
+  ],
+  [
+   1111,
+   432,
+   "United Arab Emirates"
+  ],
+  [
+   1026,
+   449,
+   null
+  ],
+  [
+   1011,
+   394,
+   "Israel"
+  ],
+  [
+   742,
+   429,
+   "W. Sahara"
+  ],
+  [
+   988,
+   558,
+   null
+  ],
+  [
+   973,
+   561,
+   "Rwanda"
+  ],
+  [
+   974,
+   568,
+   "Burundi"
+  ],
+  [
+   1141,
+   313,
+   null
+  ],
+  [
+   1204,
+   348,
+   "Tajikistan"
+  ],
+  [
+   1241,
+   398,
+   "Nepal"
+  ],
+  [
+   1281,
+   409,
+   "Bhutan"
+  ],
+  [
+   1215,
+   364,
+   "Pakistan"
+  ],
+  [
+   1200,
+   364,
+   "Pakistan"
+  ],
+  [
+   1211,
+   377,
+   "India"
+  ],
+  [
+   1217,
+   374,
+   "India"
+  ],
+  [
+   1226,
+   374,
+   "India"
+  ],
+  [
+   1490,
+   387,
+   "Japan"
+  ],
+  [
+   737,
+   181,
+   "Iceland"
+  ],
+  [
+   775,
+   261,
+   "Ireland"
+  ],
+  [
+   443,
+   79,
+   "Canada"
+  ],
+  [
+   359,
+   104,
+   "Canada"
+  ],
+  [
+   413,
+   281,
+   null
+  ],
+  [
+   416,
+   305,
+   null
+  ],
+  [
+   437,
+   298,
+   null
+  ],
+  [
+   446,
+   302,
+   null
+  ]
+ ],
+ "areas": [
+  {
+   "country": "Faeroe Is.",
+   "mode": "relabel",
+   "outline": [
+    [
+     785,
+     185
+    ],
+    [
+     804,
+     185
+    ],
+    [
+     804,
+     215
+    ],
+    [
+     785,
+     215
+    ]
+   ]
+  },
+  {
+   "country": "United Kingdom",
+   "mode": "relabel",
+   "outline": [
+    [
+     815,
+     202
+    ],
+    [
+     829,
+     202
+    ],
+    [
+     829,
+     218
+    ],
+    [
+     815,
+     218
+    ]
+   ]
+  },
+  {
+   "country": "United Kingdom",
+   "mode": "relabel",
+   "outline": [
+    [
+     776,
+     217
+    ],
+    [
+     812,
+     217
+    ],
+    [
+     812,
+     238
+    ],
+    [
+     776,
+     238
+    ]
+   ]
+  },
+  {
+   "country": "Sweden",
+   "mode": "relabel",
+   "outline": [
+    [
+     923,
+     227
+    ],
+    [
+     935,
+     227
+    ],
+    [
+     935,
+     243
+    ],
+    [
+     923,
+     243
+    ]
+   ]
+  },
+  {
+   "country": "Spain",
+   "mode": "relabel",
+   "outline": [
+    [
+     706,
+     396
+    ],
+    [
+     748,
+     396
+    ],
+    [
+     748,
+     420
+    ],
+    [
+     706,
+     420
+    ]
+   ]
+  },
+  {
+   "country": "Indonesia",
+   "mode": "relabel",
+   "outline": [
+    [
+     1404,
+     578
+    ],
+    [
+     1498,
+     578
+    ],
+    [
+     1498,
+     589
+    ],
+    [
+     1487,
+     593
+    ],
+    [
+     1470,
+     604
+    ],
+    [
+     1404,
+     606
+    ]
+   ]
+  },
+  {
+   "country": "Timor-Leste",
+   "mode": "relabel",
+   "outline": [
+    [
+     1471,
+     588
+    ],
+    [
+     1478,
+     582
+    ],
+    [
+     1488,
+     582
+    ],
+    [
+     1488,
+     589
+    ],
+    [
+     1476,
+     596
+    ],
+    [
+     1471,
+     596
+    ]
+   ]
+  },
+  {
+   "country": "Timor-Leste",
+   "mode": "remove",
+   "outline": [
+    [
+     1445,
+     550
+    ],
+    [
+     1478,
+     550
+    ],
+    [
+     1478,
+     580
+    ],
+    [
+     1445,
+     580
+    ]
+   ]
+  },
+  {
+   "country": "Papua New Guinea",
+   "mode": "relabel",
+   "outline": [
+    [
+     1594,
+     543
+    ],
+    [
+     1633,
+     543
+    ],
+    [
+     1633,
+     572
+    ],
+    [
+     1594,
+     572
+    ]
+   ]
+  },
+  {
+   "country": "Solomon Is.",
+   "mode": "relabel",
+   "outline": [
+    [
+     1636,
+     556
+    ],
+    [
+     1684,
+     556
+    ],
+    [
+     1684,
+     594
+    ],
+    [
+     1636,
+     594
+    ]
+   ]
+  },
+  {
+   "country": "Solomon Is.",
+   "mode": "remove",
+   "outline": [
+    [
+     1595,
+     572
+    ],
+    [
+     1634,
+     572
+    ],
+    [
+     1634,
+     598
+    ],
+    [
+     1595,
+     598
+    ]
+   ]
+  },
+  {
+   "country": "Vanuatu",
+   "mode": "relabel",
+   "outline": [
+    [
+     1672,
+     603
+    ],
+    [
+     1698,
+     603
+    ],
+    [
+     1698,
+     632
+    ],
+    [
+     1672,
+     632
+    ]
+   ]
+  },
+  {
+   "country": "New Zealand",
+   "mode": "relabel",
+   "outline": [
+    [
+     1693,
+     700
+    ],
+    [
+     1717,
+     700
+    ],
+    [
+     1717,
+     730
+    ],
+    [
+     1693,
+     730
+    ]
+   ]
+  },
+  {
+   "country": "Greenland",
+   "mode": "remove",
+   "outline": [
+    [
+     455,
+     105
+    ],
+    [
+     505,
+     100
+    ],
+    [
+     545,
+     140
+    ],
+    [
+     552,
+     180
+    ],
+    [
+     455,
+     180
+    ]
+   ]
+  },
+  {
+   "country": "Canada",
+   "mode": "relabel",
+   "outline": [
+    [
+     318,
+     76
+    ],
+    [
+     432,
+     76
+    ],
+    [
+     432,
+     112
+    ],
+    [
+     318,
+     112
+    ]
+   ]
+  },
+  {
+   "country": "Russia",
+   "mode": "relabel",
+   "outline": [
+    [
+     1464,
+     124
+    ],
+    [
+     1526,
+     124
+    ],
+    [
+     1526,
+     156
+    ],
+    [
+     1464,
+     156
+    ]
+   ]
+  },
+  {
+   "country": "Falkland Is.",
+   "mode": "relabel",
+   "outline": [
+    [
+     510,
+     791
+    ],
+    [
+     548,
+     791
+    ],
+    [
+     548,
+     812
+    ],
+    [
+     510,
+     812
+    ]
+   ]
+  },
+  {
+   "country": "Cuba",
+   "mode": "relabel",
+   "outline": [
+    [
+     424,
+     425
+    ],
+    [
+     445,
+     421
+    ],
+    [
+     463,
+     424
+    ],
+    [
+     463,
+     436
+    ],
+    [
+     424,
+     436
+    ]
+   ]
+  },
+  {
+   "country": "Cuba",
+   "mode": "relabel",
+   "outline": [
+    [
+     399,
+     410
+    ],
+    [
+     425,
+     410
+    ],
+    [
+     425,
+     426
+    ],
+    [
+     399,
+     426
+    ]
+   ]
+  },
+  {
+   "country": "Jamaica",
+   "mode": "relabel",
+   "outline": [
+    [
+     431,
+     437
+    ],
+    [
+     451,
+     437
+    ],
+    [
+     451,
+     449
+    ],
+    [
+     431,
+     449
+    ]
+   ]
+  },
+  {
+   "country": "Haiti",
+   "mode": "relabel",
+   "outline": [
+    [
+     453,
+     426
+    ],
+    [
+     470,
+     426
+    ],
+    [
+     470,
+     446
+    ],
+    [
+     453,
+     446
+    ]
+   ]
+  },
+  {
+   "country": "Dominican Rep.",
+   "mode": "relabel",
+   "outline": [
+    [
+     470,
+     426
+    ],
+    [
+     493,
+     426
+    ],
+    [
+     493,
+     446
+    ],
+    [
+     470,
+     446
+    ]
+   ]
+  },
+  {
+   "country": "Puerto Rico",
+   "mode": "relabel",
+   "outline": [
+    [
+     494,
+     432
+    ],
+    [
+     509,
+     432
+    ],
+    [
+     509,
+     446
+    ],
+    [
+     494,
+     446
+    ]
+   ]
+  },
+  {
+   "country": "Greece",
+   "mode": "relabel",
+   "outline": [
+    [
+     946,
+     369
+    ],
+    [
+     981,
+     369
+    ],
+    [
+     981,
+     383
+    ],
+    [
+     946,
+     383
+    ]
+   ]
+  },
+  {
+   "country": "Greece",
+   "mode": "relabel",
+   "outline": [
+    [
+     950,
+     349
+    ],
+    [
+     969,
+     349
+    ],
+    [
+     969,
+     368
+    ],
+    [
+     950,
+     368
+    ]
+   ]
+  },
+  {
+   "country": "Norway",
+   "mode": "remove",
+   "outline": [
+    [
+     940,
+     168
+    ],
+    [
+     966,
+     168
+    ],
+    [
+     966,
+     200
+    ],
+    [
+     940,
+     200
+    ]
+   ]
+  },
+  {
+   "country": "Tonga",
+   "mode": "remove",
+   "outline": [
+    [
+     55,
+     600
+    ],
+    [
+     90,
+     600
+    ],
+    [
+     90,
+     642
+    ],
+    [
+     55,
+     642
+    ]
+   ]
+  },
+  {
+   "country": "Fr. S. Antarctic Lands",
+   "mode": "remove",
+   "outline": [
+    [
+     1138,
+     784
+    ],
+    [
+     1172,
+     784
+    ],
+    [
+     1172,
+     812
+    ],
+    [
+     1138,
+     812
+    ]
+   ]
+  },
+  {
+   "country": "S. Geo. and the Is.",
+   "mode": "remove",
+   "outline": [
+    [
+     625,
+     788
+    ],
+    [
+     692,
+     788
+    ],
+    [
+     692,
+     838
+    ],
+    [
+     625,
+     838
+    ]
+   ]
+  }
+ ],
+ "merge": {
+  "Somaliland": "Somalia",
+  "N. Cyprus": "Cyprus"
+ }
+}

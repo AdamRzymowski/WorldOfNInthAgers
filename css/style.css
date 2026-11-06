@@ -89,11 +89,6 @@ button {
   image-rendering: pixelated;
 }
 
-.countries.debug .country {
-  stroke: rgb(220 0 0 / 0.8);
-  stroke-width: 1;
-}
-
 .landmarks circle {
   fill: #00a2ff;
   stroke: white;

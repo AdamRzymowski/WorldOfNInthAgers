@@ -90,11 +90,15 @@ function imagePath(feature) {
 }
 
 // Tint the countries that have communities, using their shapes as drawn.
+// With ?debug, tint every country so the hit map can be checked by eye.
+const DEBUG_COLOURS = [[230, 25, 75], [60, 180, 75], [0, 130, 200], [245, 130, 48], [145, 30, 180], [70, 200, 200], [240, 50, 230]];
 const tints = stage.append("g").attr("class", "tints");
-for (const f of countries.filter((f) => communitiesFor(f).length)) {
-  const m = hitmap.mask(f.properties.name, { fill: [200, 151, 62, 60], edge: [200, 151, 62, 60] });
+countries.forEach((f, i) => {
+  if (!DEBUG && !communitiesFor(f).length) return;
+  const c = DEBUG ? DEBUG_COLOURS[i % DEBUG_COLOURS.length] : [200, 151, 62];
+  const m = hitmap.mask(f.properties.name, { fill: [...c, DEBUG ? 110 : 60], edge: [...c, DEBUG ? 230 : 60] });
   if (m) tints.append("image").attr("href", m.href).attr("x", m.x).attr("y", m.y).attr("width", m.width).attr("height", m.height);
-}
+});
 
 const highlight = stage
   .append("image")
@@ -103,11 +107,11 @@ const highlight = stage
   .attr("visibility", "hidden");
 
 // The outlines are invisible: they give keyboard and screen reader users
-// something to tab through, and show the real borders with ?debug. Mouse and
-// touch use the hit map so hover follows the borders as drawn.
+// something to tab through. Mouse and touch use the hit map so hover follows
+// the borders as drawn.
 stage
   .append("g")
-  .attr("class", DEBUG ? "countries debug" : "countries")
+  .attr("class", "countries")
   .selectAll("path")
   .data(countries)
   .join("path")
