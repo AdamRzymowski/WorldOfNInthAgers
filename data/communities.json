@@ -11,6 +11,12 @@
             "type": "discord",
             "label": "Join the Gargulec server",
             "url": "https://discord.gg/3dxfmnCFT"
+          },
+          {
+            "type": "facebook",
+            "label": "Klub Gargulec",
+            "url": "https://www.facebook.com/KlubGargulec",
+            "title": "Facebook page"
           }
         ],
         "region": "Gdańsk",
