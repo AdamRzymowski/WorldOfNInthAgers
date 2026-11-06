@@ -80,8 +80,7 @@ button {
   outline: none;
 }
 
-.world-map.over-country,
-.country-map.over-country {
+.world-map.over-country {
   cursor: pointer;
 }
 
@@ -379,11 +378,6 @@ button {
   stroke: rgb(90 59 31 / 0.55);
   stroke-width: 0.8;
   vector-effect: non-scaling-stroke;
-  cursor: pointer;
-}
-
-.neighbour:hover {
-  fill: #f3e2bb;
 }
 
 .chosen {

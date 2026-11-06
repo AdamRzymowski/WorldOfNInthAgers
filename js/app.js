@@ -412,18 +412,18 @@ function setMinimapHover(f, event) {
   const hl = mapLayer.select(".highlight");
   if (f !== minimapHovered) {
     minimapHovered = f;
+    // Only the featured country highlights; neighbours just show their name.
     const isCurrent = f === current?.feature;
-    const m = f && current.minimap.hits.mask(f.properties.name, isCurrent ? { fill: [255, 236, 170, 70], edge: [139, 26, 16, 230] } : undefined);
+    const m = isCurrent && current.minimap.hits.mask(f.properties.name, { fill: [255, 236, 170, 70], edge: [139, 26, 16, 230] });
     if (m) hl.attr("href", m.href).attr("x", m.x).attr("y", m.y).attr("width", m.width).attr("height", m.height).attr("visibility", "visible");
     else hl.attr("visibility", "hidden");
-    countrySvg.classed("over-country", !!f && !isCurrent);
   }
   if (!f) {
     mapTooltip.hidden = true;
     return;
   }
   const box = mapWrap.getBoundingClientRect();
-  mapTooltip.textContent = f === current.feature ? f.properties.name : `${f.properties.name} — open`;
+  mapTooltip.textContent = f.properties.name;
   mapTooltip.hidden = false;
   mapTooltip.style.left = `${Math.min(Math.max(event.clientX - box.left, 70), box.width - 70)}px`;
   mapTooltip.style.top = `${event.clientY - box.top}px`;
@@ -468,7 +468,6 @@ function drawCountry(feature, list) {
     .join("path")
     .attr("class", "neighbour")
     .attr("d", path)
-    .on("click", (event, f) => openCountry(f))
     .append("title")
     .text((f) => f.properties.name);
   mapLayer.append("path").attr("class", "chosen").attr("d", path(feature));
@@ -780,11 +779,6 @@ dialog.addEventListener("click", (event) => {
 countrySvg.on("click", (event) => {
   if (event.target.closest(".badge")) return;
   closeCard();
-  const neighbour = minimapCountryAt(event);
-  if (neighbour && neighbour !== current.feature) {
-    setMinimapHover(null);
-    openCountry(neighbour);
-  }
 });
 
 dialog.addEventListener("cancel", (event) => {
