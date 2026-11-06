@@ -297,6 +297,7 @@ for country in cfg.get("split_gold", []):
 
 # "areas": hand-traced outlines, for borders the artwork doesn't draw. Only
 # land inside them changes, never sea.
+area_masks = []
 for area_def in cfg.get("areas", []):
     mask_img = Image.new("1", (W, H), 0)
     ImageDraw.Draw(mask_img).polygon([tuple(p) for p in area_def["outline"]], fill=1)
@@ -310,6 +311,7 @@ for area_def in cfg.get("areas", []):
         member = inside & (highlight | (result > 0))
     highlight &= ~member
     result[member] = label_for(area_def["country"])
+    area_masks.append((member, label_for(area_def["country"])))
 
 # Hand-named regions first, then guesses for the rest.
 named = {}
@@ -415,6 +417,8 @@ for _ in range(4):
                 local[member] = counts.argmax()
 result = grow_into_ink(result, INK_REACH)
 result[highlight] = label_for(featured)
+for member, label in area_masks:  # traced areas win over every guess
+    result[member] = label
 result[decoration] = 0
 
 # ------------------------------------------------------------------- output
