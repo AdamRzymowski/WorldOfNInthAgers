@@ -1,0 +1,76 @@
+{
+  "country": "United Kingdom",
+  "image": "assets/country-maps/united-kingdom.webp",
+  "highlight": {
+    "hue": [
+      33,
+      100
+    ],
+    "min_saturation": 120,
+    "min_value": 70
+  },
+  "foreign_gold": false,
+  "regions": [
+    [
+      440,
+      640,
+      "Ireland"
+    ]
+  ],
+  "extra_decorations": {
+    "strip top": [
+      [
+        0,
+        0
+      ],
+      [
+        1536,
+        0
+      ],
+      [
+        1536,
+        110
+      ],
+      [
+        0,
+        110
+      ]
+    ],
+    "strip bottom": [
+      [
+        0,
+        930
+      ],
+      [
+        1536,
+        930
+      ],
+      [
+        1536,
+        1024
+      ],
+      [
+        0,
+        1024
+      ]
+    ],
+    "strip right": [
+      [
+        1430,
+        0
+      ],
+      [
+        1536,
+        0
+      ],
+      [
+        1536,
+        1024
+      ],
+      [
+        1430,
+        1024
+      ]
+    ]
+  }
+}
