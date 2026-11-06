@@ -1,11 +1,12 @@
 // Which country is under each pixel of the artwork, following the borders
-// as drawn. Built offline by tools/build_hitmap.py: each pixel of
-// data/hitmap.png holds 1 + an index into hitmap.json's `names` (0 = sea).
+// as drawn. Built offline by tools/build_hitmap.py (world map) and
+// tools/build_minimap.py (country minimaps): each pixel of <base>.png holds
+// 1 + an index into <base>.json's `names` (0 = sea).
 
-export async function loadHitmap() {
+export async function loadHitmap(base = "data/hitmap") {
   const [info, img] = await Promise.all([
-    fetch("data/hitmap.json").then((r) => r.json()),
-    loadImage("data/hitmap.png"),
+    fetch(`${base}.json`).then((r) => r.json()),
+    loadImage(`${base}.png`),
   ]);
   const { width, height } = info;
   const canvas = document.createElement("canvas");
@@ -37,6 +38,8 @@ export async function loadHitmap() {
   const masks = new Map();
 
   return {
+    width,
+    height,
     labelPoints: info.labelPoints,
 
     nameAt(x, y) {
@@ -85,8 +88,13 @@ export async function loadHitmap() {
   };
 }
 
+// The load event rather than img.decode(): decode() can wait indefinitely in a
+// tab that isn't visible (opened in the background).
 function loadImage(src) {
-  const img = new Image();
-  img.src = src;
-  return img.decode().then(() => img);
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(`Could not load ${src}`));
+    img.src = src;
+  });
 }

@@ -1,14 +1,15 @@
-import { MAP_IMAGE, LANDMARKS, toImage, wrapLongitude, spansDateline } from "./calibration.js";
+import { MAP_IMAGE, LANDMARKS, toImage, wrapLongitude, spansDateline, fitSpline } from "./calibration.js";
 import { linkInfo, safeUrl } from "./links.js";
 import { loadHitmap } from "./hitmap.js";
 
 const DEBUG = new URLSearchParams(location.search).has("debug");
 const { width: W, height: H } = MAP_IMAGE;
 
-const [topology, communityData, hitmap] = await Promise.all([
+const [topology, communityData, hitmap, countryMaps] = await Promise.all([
   d3.json("data/countries-50m.json"),
   d3.json("data/communities.json"),
   loadHitmap(),
+  d3.json("data/country-maps/index.json").catch(() => ({})),
 ]);
 
 const countries = topojson
@@ -286,8 +287,8 @@ document.getElementById("country-search").addEventListener("submit", (event) => 
 
 /* ---------------------------------------------------------- country dialog */
 
-const CW = 800;
-const CH = 560;
+let CW = 800; // size of the country map's drawing area (changes for minimaps)
+let CH = 560;
 const MARKER_R = 24;
 
 const dialog = document.getElementById("country-dialog");
@@ -301,6 +302,10 @@ const mapWrap = document.querySelector(".country-map-wrap");
 const defs = countrySvg.append("defs");
 const mapLayer = countrySvg.append("g").attr("class", "country-layer");
 const markerLayer = countrySvg.append("g").attr("class", "marker-layer");
+const mapTooltip = document.createElement("div");
+mapTooltip.className = "tooltip";
+mapTooltip.hidden = true;
+mapWrap.append(mapTooltip);
 
 let current = null; // { feature, list, projection, nodes }
 let lastTransform = d3.zoomIdentity;
@@ -325,19 +330,116 @@ const countryZoom = d3
 
 countrySvg.call(countryZoom);
 
-function openCountry(feature) {
+function setCanvas(width, height) {
+  CW = width;
+  CH = height;
+  countrySvg.attr("viewBox", `0 0 ${CW} ${CH}`).style("aspect-ratio", `${CW} / ${CH}`);
+  countryZoom.translateExtent([
+    [0, 0],
+    [CW, CH],
+  ]);
+}
+
+// Ornate per-country minimaps (data/country-maps/), loaded the first time they're needed.
+const minimapCache = new Map();
+function loadMinimap(name) {
+  const base = countryMaps[name];
+  if (!base) return null;
+  if (!minimapCache.has(name)) {
+    minimapCache.set(
+      name,
+      Promise.all([d3.json(`${base}.json`), loadHitmap(`${base}-hitmap`)]).then(([config, hits]) => ({
+        config,
+        hits,
+        toMap: fitSpline(config.landmarks, 5),
+      }))
+    );
+  }
+  return minimapCache.get(name);
+}
+
+async function openCountry(feature) {
   setHover(null);
   closeCard();
   const list = communitiesFor(feature);
   title.textContent = feature.properties.name;
   countrySvg.attr("aria-label", `Map of ${feature.properties.name}`);
-  drawCountry(feature, list);
   renderList(list);
   if (!dialog.open) dialog.showModal();
   history.replaceState(null, "", `#${encodeURIComponent(feature.properties.name)}`);
+  const minimap = await loadMinimap(feature.properties.name)?.catch((err) => {
+    console.warn(`Could not load the ${feature.properties.name} minimap`, err);
+    return null;
+  });
+  if (minimap) drawMinimap(feature, list, minimap);
+  else drawCountry(feature, list);
 }
 
+function drawMinimap(feature, list, minimap) {
+  const { config, hits, toMap } = minimap;
+  setCanvas(hits.width, hits.height);
+  minimapHovered = null;
+
+  mapLayer.selectAll("*").remove();
+  mapLayer.append("image").attr("href", config.image).attr("width", CW).attr("height", CH);
+  mapLayer
+    .append("image")
+    .attr("class", "highlight")
+    .attr("preserveAspectRatio", "none")
+    .attr("visibility", "hidden");
+
+  current = {
+    feature,
+    list,
+    minimap,
+    nodes: list
+      .filter((c) => Number.isFinite(c.lon) && Number.isFinite(c.lat))
+      .map((community, i) => ({ community, index: i, anchor: toMap(community.lon, community.lat) })),
+  };
+  drawMarkers();
+  countrySvg.call(countryZoom.transform, d3.zoomIdentity);
+}
+
+function minimapCountryAt(event) {
+  if (!current?.minimap) return null;
+  const [x, y] = d3.pointer(event, mapLayer.node());
+  const name = current.minimap.hits.nameAt(x, y);
+  return name ? byName.get(normalize(name)) ?? null : null;
+}
+
+let minimapHovered = null;
+function setMinimapHover(f, event) {
+  const hl = mapLayer.select(".highlight");
+  if (f !== minimapHovered) {
+    minimapHovered = f;
+    const isCurrent = f === current?.feature;
+    const m = f && current.minimap.hits.mask(f.properties.name, isCurrent ? { fill: [255, 236, 170, 70], edge: [139, 26, 16, 230] } : undefined);
+    if (m) hl.attr("href", m.href).attr("x", m.x).attr("y", m.y).attr("width", m.width).attr("height", m.height).attr("visibility", "visible");
+    else hl.attr("visibility", "hidden");
+    countrySvg.classed("over-country", !!f && !isCurrent);
+  }
+  if (!f) {
+    mapTooltip.hidden = true;
+    return;
+  }
+  const box = mapWrap.getBoundingClientRect();
+  mapTooltip.textContent = f === current.feature ? f.properties.name : `${f.properties.name} — open`;
+  mapTooltip.hidden = false;
+  mapTooltip.style.left = `${Math.min(Math.max(event.clientX - box.left, 70), box.width - 70)}px`;
+  mapTooltip.style.top = `${event.clientY - box.top}px`;
+}
+
+countrySvg
+  .on("pointermove.minimap", (event) => {
+    if (!current?.minimap || event.target.closest(".badge")) return setMinimapHover(null);
+    setMinimapHover(minimapCountryAt(event), event);
+  })
+  .on("pointerleave.minimap", () => current?.minimap && setMinimapHover(null));
+
 function drawCountry(feature, list) {
+  setCanvas(800, 560);
+  minimapHovered = null;
+  mapTooltip.hidden = true;
   const land = mainland(feature);
   const [centerLon] = d3.geoCentroid(land);
   const points = list
@@ -676,7 +778,13 @@ dialog.addEventListener("click", (event) => {
 });
 
 countrySvg.on("click", (event) => {
-  if (!event.target.closest(".badge")) closeCard();
+  if (event.target.closest(".badge")) return;
+  closeCard();
+  const neighbour = minimapCountryAt(event);
+  if (neighbour && neighbour !== current.feature) {
+    setMinimapHover(null);
+    openCountry(neighbour);
+  }
 });
 
 dialog.addEventListener("cancel", (event) => {

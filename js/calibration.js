@@ -140,7 +140,8 @@ function solve(A, b) {
   return x;
 }
 
-function fitSpline(points, smoothing) {
+// Also used to place markers on country minimaps from their own landmarks.
+export function fitSpline(points, smoothing = SMOOTHING) {
   const n = points.length;
   const size = n + 3;
   const A = Array.from({ length: size }, () => new Array(size).fill(0));

@@ -80,7 +80,8 @@ button {
   outline: none;
 }
 
-.world-map.over-country {
+.world-map.over-country,
+.country-map.over-country {
   cursor: pointer;
 }
 
@@ -152,7 +153,7 @@ button {
 .t9a-link::before {
   content: "";
   position: absolute;
-  inset: -14% -38% -10%;
+  inset: -14% -24% -10%; /* stays inside the page margin: no sideways scroll */
   z-index: -1;
   background:
     radial-gradient(ellipse 46% 30% at 50% 22%, rgb(8 4 2 / 0.9), transparent 72%),

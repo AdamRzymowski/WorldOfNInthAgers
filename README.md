@@ -127,6 +127,38 @@ Northern Cyprus are merged into them. Crimea, drawn as its own small region,
 is pinned to Ukraine (the boundary data has it in Russia). Change these in
 `overrides.json` if you want something else.
 
+## Country minimaps
+
+A country can have its own ornate map, shown in its popup instead of the
+plain outline. Neighbouring countries on it highlight on hover and open when
+clicked. Sweden is the first.
+
+To add one (say for Poland):
+
+1. Save the artwork as `assets/country-maps/poland.webp`.
+2. Copy [`data/country-maps/sweden.json`](data/country-maps/sweden.json) to
+   `data/country-maps/poland.json` and edit it:
+   - `highlight`: the featured country and a point (or one per island) inside
+     its painted fill. It's found by that colour, so its outline is exact.
+   - `regions`: `[x, y, "Country"]`, a point inside each neighbouring country
+     as drawn (pixels of the artwork).
+   - `water`: a point in each drawn sea.
+   - `decorations`: outlines of the crest, compass, ships, frame... so they're
+     never clickable.
+   - `landmarks`: `[longitude, latitude, x, y]` for a few places, used to put
+     community logos in the right spot.
+3. Build it, then list it in
+   [`data/country-maps/index.json`](data/country-maps/index.json):
+
+```bash
+cd tools
+python build_minimap.py ../data/country-maps/poland.json --cells
+```
+
+`--cells` writes `tools/.cache/minimap-poland-cells.png` with every drawn
+region numbered and its coordinates, to help pick the points. The build
+warns when a point lands on a pen line or two countries share a region.
+
 ## Credits
 
 - Country boundaries: [Natural Earth](https://www.naturalearthdata.com/) via
