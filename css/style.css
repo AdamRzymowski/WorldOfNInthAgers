@@ -73,23 +73,20 @@ button {
 }
 
 .country {
-  fill: transparent;
-  stroke: transparent;
-  stroke-width: 1.5;
-  vector-effect: non-scaling-stroke;
-  cursor: pointer;
-  transition: fill 0.15s;
+  fill: none;
+  stroke: none;
+  pointer-events: none;
   outline: none;
 }
 
-.country.has-communities {
-  fill: rgb(200 151 62 / 0.18);
+.world-map.over-country {
+  cursor: pointer;
 }
 
-.country:hover,
-.country:focus-visible {
-  fill: rgb(139 26 16 / 0.28);
-  stroke: var(--blood);
+.highlight,
+.tints image {
+  pointer-events: none;
+  image-rendering: pixelated;
 }
 
 .countries.debug .country {

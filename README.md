@@ -71,12 +71,28 @@ The entries currently in `communities.json` are placeholders marked
 
 ## How the map lines up
 
-The artwork is hand-drawn, so country shapes are bent to fit it using
-landmark points in [`js/calibration.js`](js/calibration.js). Open the site
-with `?debug` (e.g. `http://localhost:8000/?debug`) to see the country
-outlines in red and the landmarks in blue. If a country's clickable area is
-off, add or nudge a landmark there: `[longitude, latitude, imageX, imageY]`,
-with image pixels measured on `assets/world-map.webp` (1774 × 887).
+The artwork is hand-drawn, so two things make clicks land on the right country:
+
+- **Hit map** (`data/hitmap.png`): every pixel of the artwork is labelled with
+  the country it belongs to, *as drawn*. Hovering and clicking use this, so the
+  highlighted area always matches the borders you can see. It's built from the
+  artwork's own ink lines: each enclosed region goes to the real country that
+  covers most of it.
+- **Calibration** ([`js/calibration.js`](js/calibration.js)): landmark points
+  that bend real geography onto the artwork. The hit map build uses it to
+  decide which country each drawn region is. Open the site with `?debug` to
+  see the warped real borders in red and the landmarks in blue. Each landmark
+  is `[longitude, latitude, imageX, imageY]` in pixels of
+  `assets/world-map.webp` (1774 × 887).
+
+If you change the artwork or the landmarks, rebuild the hit map (needs Node,
+and Python with Pillow and numpy):
+
+```bash
+cd tools
+npm install
+npm run hitmap
+```
 
 ## Credits
 

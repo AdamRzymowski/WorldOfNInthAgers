@@ -1,0 +1,12 @@
+{
+  "name": "world-of-ninth-agers-tools",
+  "private": true,
+  "type": "module",
+  "description": "Offline build step that produces data/hitmap.png from the artwork.",
+  "scripts": {
+    "hitmap": "node project-countries.mjs && python build_hitmap.py"
+  },
+  "dependencies": {
+    "topojson-client": "3.1.0"
+  }
+}

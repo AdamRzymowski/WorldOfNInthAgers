@@ -1,12 +1,14 @@
 import { MAP_IMAGE, LANDMARKS, toImage, wrapLongitude, spansDateline } from "./calibration.js";
 import { linkInfo, safeUrl } from "./links.js";
+import { loadHitmap } from "./hitmap.js";
 
 const DEBUG = new URLSearchParams(location.search).has("debug");
 const { width: W, height: H } = MAP_IMAGE;
 
-const [topology, communityData] = await Promise.all([
+const [topology, communityData, hitmap] = await Promise.all([
   d3.json("data/countries-50m.json"),
   d3.json("data/communities.json"),
+  loadHitmap(),
 ]);
 
 const countries = topojson
@@ -87,13 +89,29 @@ function imagePath(feature) {
   );
 }
 
+// Tint the countries that have communities, using their shapes as drawn.
+const tints = stage.append("g").attr("class", "tints");
+for (const f of countries.filter((f) => communitiesFor(f).length)) {
+  const m = hitmap.mask(f.properties.name, { fill: [200, 151, 62, 60], edge: [200, 151, 62, 60] });
+  if (m) tints.append("image").attr("href", m.href).attr("x", m.x).attr("y", m.y).attr("width", m.width).attr("height", m.height);
+}
+
+const highlight = stage
+  .append("image")
+  .attr("class", "highlight")
+  .attr("preserveAspectRatio", "none")
+  .attr("visibility", "hidden");
+
+// The outlines are invisible: they give keyboard and screen reader users
+// something to tab through, and show the real borders with ?debug. Mouse and
+// touch use the hit map so hover follows the borders as drawn.
 stage
   .append("g")
   .attr("class", DEBUG ? "countries debug" : "countries")
   .selectAll("path")
   .data(countries)
   .join("path")
-  .attr("class", (f) => (communitiesFor(f).length ? "country has-communities" : "country"))
+  .attr("class", "country")
   .attr("d", (f) => imagePath(f)(f))
   .attr("tabindex", 0)
   .attr("role", "button")
@@ -101,16 +119,62 @@ stage
     const n = communitiesFor(f).length;
     return `${f.properties.name}${n ? `, ${n} ${n === 1 ? "community" : "communities"}` : ""}`;
   })
-  .on("pointerenter pointermove", (event, f) => showTooltip(event, f))
-  .on("pointerleave blur", hideTooltip)
-  .on("focus", (event, f) => showTooltip(event, f))
-  .on("click", (event, f) => openCountry(f))
+  .on("focus", (event, f) => {
+    setHover(f);
+    const [x, y] = d3.zoomTransform(worldSvg.node()).apply(sealPoint(f));
+    const box = worldSvg.node().getBoundingClientRect();
+    showTooltip(f, box.left + (x / W) * box.width, box.top + (y / H) * box.height);
+  })
+  .on("blur", () => setHover(null))
   .on("keydown", (event, f) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       openCountry(f);
     }
   });
+
+function featureAt(event) {
+  const [x, y] = d3.pointer(event, stage.node());
+  const name = hitmap.nameAt(x, y);
+  return name ? byName.get(normalize(name)) : null;
+}
+
+let hovered = null;
+
+function setHover(f) {
+  if (f === hovered) return;
+  hovered = f;
+  const m = f && hitmap.mask(f.properties.name);
+  if (!m) {
+    highlight.attr("visibility", "hidden");
+    hideTooltip();
+  } else {
+    highlight
+      .attr("href", m.href)
+      .attr("x", m.x)
+      .attr("y", m.y)
+      .attr("width", m.width)
+      .attr("height", m.height)
+      .attr("visibility", "visible");
+  }
+  worldSvg.classed("over-country", !!f);
+}
+
+worldSvg
+  .on("pointermove", (event) => {
+    const f = featureAt(event);
+    setHover(f);
+    if (f) showTooltip(f, event.clientX, event.clientY);
+  })
+  .on("pointerleave", () => setHover(null))
+  .on("click", (event) => {
+    const f = featureAt(event);
+    if (f) openCountry(f);
+  });
+
+function sealPoint(f) {
+  return hitmap.labelPoints[f.properties.name] ?? toMap(f, labelPoint(f));
+}
 
 const seals = stage
   .append("g")
@@ -120,11 +184,12 @@ const seals = stage
   .join("g")
   .attr("class", "seal")
   .each(function (f) {
-    f.seal = toMap(f, labelPoint(f));
+    f.seal = sealPoint(f);
   })
-  .on("click", (event, f) => openCountry(f))
-  .on("pointerenter pointermove", (event, f) => showTooltip(event, f))
-  .on("pointerleave", hideTooltip);
+  .on("click", (event, f) => {
+    event.stopPropagation();
+    openCountry(f);
+  });
 
 seals.append("circle").attr("r", 13);
 seals
@@ -161,7 +226,7 @@ const worldZoom = d3
   .on("zoom", ({ transform }) => {
     stage.attr("transform", transform);
     placeSeals(transform.k);
-    hideTooltip();
+    setHover(null);
   });
 
 worldSvg.call(worldZoom);
@@ -177,7 +242,7 @@ document.querySelectorAll("[data-zoom]").forEach((button) =>
   })
 );
 
-function showTooltip(event, f) {
+function showTooltip(f, clientX, clientY) {
   const n = communitiesFor(f).length;
   tooltip.textContent = n
     ? `${f.properties.name} — ${n} ${n === 1 ? "community" : "communities"}`
@@ -185,17 +250,9 @@ function showTooltip(event, f) {
   tooltip.hidden = false;
 
   const box = frame.getBoundingClientRect();
-  let x, y;
-  if (event.clientX !== undefined) {
-    x = event.clientX - box.left;
-    y = event.clientY - box.top;
-  } else {
-    const r = event.target.getBoundingClientRect();
-    x = r.left + r.width / 2 - box.left;
-    y = r.top + r.height / 2 - box.top;
-  }
+  const x = clientX - box.left;
   tooltip.style.left = `${Math.min(Math.max(x, 60), box.width - 60)}px`;
-  tooltip.style.top = `${y}px`;
+  tooltip.style.top = `${clientY - box.top}px`;
 }
 
 function hideTooltip() {
@@ -265,7 +322,7 @@ const countryZoom = d3
 countrySvg.call(countryZoom);
 
 function openCountry(feature) {
-  hideTooltip();
+  setHover(null);
   closeCard();
   const list = communitiesFor(feature);
   title.textContent = feature.properties.name;
