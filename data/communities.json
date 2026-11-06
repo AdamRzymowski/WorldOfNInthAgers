@@ -4,11 +4,16 @@
     "Poland": [
       {
         "name": "Gargulec",
-        "lat": 52.1,
-        "lon": 19.4,
+        "lat": 54.35,
+        "lon": 18.65,
         "links": [
-          { "type": "discord", "label": "Join the Gargulec server", "url": "https://discord.gg/3dxfmnCFT" }
-        ]
+          {
+            "type": "discord",
+            "label": "Join the Gargulec server",
+            "url": "https://discord.gg/3dxfmnCFT"
+          }
+        ],
+        "region": "Gdańsk"
       }
     ],
     "United Kingdom": [
@@ -20,7 +25,11 @@
         "lon": -0.13,
         "description": "Placeholder entry.",
         "links": [
-          { "type": "whatsapp", "label": "Group chat", "url": "https://chat.whatsapp.com/example" }
+          {
+            "type": "whatsapp",
+            "label": "Group chat",
+            "url": "https://chat.whatsapp.com/example"
+          }
         ]
       }
     ]
