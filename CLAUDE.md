@@ -27,7 +27,30 @@ copied into `data/communities.json`. So before any push to GitHub (on every
 5. Only then push. If the user says to push without reviewing, push and note
    that submissions were not reviewed.
 
-When adding one: put it under its country in `data/communities.json` with
+## "Add all pending communities"
+
+When the user says this:
+
+1. Read the submissions and find the ones not on the map yet, as in steps 1–2
+   above.
+2. Check each against the map and against the other pending submissions for
+   likely duplicates. Flag a pair when any of these hold:
+   - the names match ignoring case, accents, spaces and punctuation, or are
+     nearly the same (one contains the other, or a typo or two apart);
+   - they are in the same country within about 25 km of each other;
+   - they share a contact (the same Discord invite, email, WhatsApp or
+     Facebook link).
+3. Add every pending submission that has no flag, without asking again.
+4. Don't add flagged ones. List each with what it resembles and why (for
+   example "Salamandra, 14 km from the Salamandra already on the map, same
+   name"), and let the user choose: add it as a separate community, merge its
+   contacts into the existing entry, or skip it.
+5. Report what was added, what is waiting on the user, and commit on the
+   current version branch. Don't push unless asked.
+
+## Adding a submission
+
+Put it under its country in `data/communities.json` with
 `name`, `lat`, `lon` and a link per contact (`discord`, `email`, `whatsapp`,
 `facebook`; a value that isn't a link becomes a label with no `url`). If it
 has a logo, download it into `assets/logos/<slug>.webp` and set `logo`;
