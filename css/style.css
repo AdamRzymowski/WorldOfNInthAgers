@@ -861,13 +861,15 @@ a.link:focus-visible {
   flex-direction: column;
   align-items: flex-start;
   pointer-events: none;
-  transform: translate(-8px, -76px);
+  /* the foot of the pole (3, 80 of 61 x 80) sits on the pointer */
+  transform: translate(-3px, -80px);
 }
 
-.banner-cursor svg {
-  width: 60px;
+.banner-cursor img {
+  width: 61px;
   height: 80px;
   filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.5));
+  animation: banner-wave 1.6s ease-in-out infinite;
 }
 
 .banner-cursor span {
@@ -884,6 +886,21 @@ a.link:focus-visible {
 .planted-banner {
   pointer-events: none;
   filter: drop-shadow(0 3px 4px rgb(0 0 0 / 0.55));
+  transform-box: fill-box;
+  animation: banner-wave 1.6s ease-in-out infinite;
+}
+
+/* The cloth sways about the pole; the pole's foot stays put. */
+@keyframes banner-wave {
+  0%, 100% { transform: skewY(0deg) scaleX(1); transform-origin: 5% 100%; }
+  50% { transform: skewY(-3deg) scaleX(0.96); transform-origin: 5% 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner-cursor img,
+  .planted-banner {
+    animation: none;
+  }
 }
 
 /* ------------------------------------------------------------ join form */

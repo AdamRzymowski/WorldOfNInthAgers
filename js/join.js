@@ -83,15 +83,15 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
 
   function plantAt(x, y) {
     removePlanted();
-    const h = getCanvasWidth() * 0.07;
-    const w = h * 0.75;
-    // The foot of the pole (8, 78 of 60 x 80) stands on the chosen spot.
+    const h = getCanvasWidth() * 0.08;
+    const w = h * (229 / 300);
+    // The foot of the pole (11.5, 300 of the 229 x 300 image) stands on the chosen spot.
     planted = mapLayer
-      .append("use")
+      .append("image")
       .attr("class", "planted-banner")
-      .attr("href", "#war-banner")
-      .attr("x", x - (8 / 60) * w)
-      .attr("y", y - (78 / 80) * h)
+      .attr("href", "assets/banner.webp")
+      .attr("x", x - (11.5 / 229) * w)
+      .attr("y", y - h)
       .attr("width", w)
       .attr("height", h);
   }

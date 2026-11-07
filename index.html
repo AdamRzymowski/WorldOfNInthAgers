@@ -60,7 +60,7 @@
             <button type="button" data-plant-cancel aria-label="Cancel">&times;</button>
           </div>
           <div class="banner-cursor" id="banner-cursor" aria-hidden="true" hidden>
-            <svg viewBox="0 0 60 80"><use href="#war-banner"></use></svg>
+            <img src="assets/banner.webp" alt="" width="61" height="80">
             <span>Plant your banner on the map!</span>
           </div>
         </div>
@@ -147,23 +147,6 @@
     </form>
   </dialog>
 
-  <!-- A war banner waving in the wind: the planting cursor and the planted marker. -->
-  <svg class="visually-hidden" aria-hidden="true">
-    <symbol id="war-banner" viewBox="0 0 60 80">
-      <line x1="8" y1="5" x2="8" y2="78" stroke="#3b2210" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="8" cy="5" r="3.5" fill="#c8973e" stroke="#3b2210" stroke-width="1"/>
-      <path fill="#8b1a10" stroke="#c8973e" stroke-width="2" stroke-linejoin="round">
-        <animate attributeName="d" dur="1.1s" repeatCount="indefinite"
-          values="M9 9 C22 4 36 14 55 9 L51 24 L55 39 C36 44 22 34 9 39 Z;
-                  M9 9 C22 14 36 4 55 12 L50 27 L55 42 C36 34 22 44 9 39 Z;
-                  M9 9 C22 4 36 14 55 9 L51 24 L55 39 C36 44 22 34 9 39 Z"/>
-      </path>
-      <path fill="none" stroke="#c8973e" stroke-width="1.6" opacity="0.9">
-        <animate attributeName="d" dur="1.1s" repeatCount="indefinite"
-          values="M20 17 L30 30 L40 17; M20 19 L30 30 L40 15; M20 17 L30 30 L40 17"/>
-      </path>
-    </symbol>
-  </svg>
 
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
