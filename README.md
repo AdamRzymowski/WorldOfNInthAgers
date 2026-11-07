@@ -170,7 +170,7 @@ from it, and `build_minimap.py` reads it so the gold detection keeps working.
 
 Visitors add themselves from a country's view: the blue plus button turns the
 cursor into a waving banner, a click inside the country plants it, and a form
-asks for a name, at least one of Discord / email / WhatsApp / Facebook, and an
+asks for a name, an optional city/town/village (up to 30 characters), at least one of Discord / email / WhatsApp / Facebook, and an
 optional logo (shrunk in the browser to a 256 px square miniature before sending;
 without one, the community gets the Ninth Age banner). The code is in [`js/join.js`](js/join.js).
 
