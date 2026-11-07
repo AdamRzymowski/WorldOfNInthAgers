@@ -76,6 +76,7 @@ The community card shows all of these.
 Work goes on a local `version-X.Y` branch, never straight on `main`. "Push to
 local" means commit on that branch only. "Push" means: review submissions
 (above), push the version branch and `version-X.Y:main` to `origin`, move
-local `main` to it, then create `version-X.(Y+1)` for the next work. Batch
+local `main` to it, then create `version-X.(Y+1)` for the next work. The site is an MVP: stay
+on 1.x (`version-1.9` is followed by `version-1.10`), not 2.0. Batch
 changes: each push to `main` costs a Netlify deploy, and the account's
 monthly credit allowance is limited.
