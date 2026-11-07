@@ -37,6 +37,11 @@ for (const name of communitiesByCountry.keys()) {
   if (!byName.has(name)) console.warn(`communities.json: no country on the map is called "${name}"`);
 }
 
+// Each community's country, for cards opened from a neighbour's real map.
+const countryOf = new Map(
+  [...communitiesByCountry].flatMap(([name, list]) => list.map((c) => [c, byName.get(name)]))
+);
+
 function normalize(name) {
   return name.trim().toLowerCase();
 }
@@ -699,6 +704,21 @@ function openCard(node) {
     head.append(logo, heading);
   }
   card.append(close, head);
+
+  // Opened on the real map from a neighbouring country: offer to go there.
+  const home = countryOf.get(c);
+  if (home && current && home !== current.feature) {
+    const name = home.properties.name;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "switch-country";
+    button.textContent = `Switch to ${name}`;
+    button.addEventListener("click", async () => {
+      await openCountry(home);
+      openCard({ community: c });
+    });
+    card.append(button);
+  }
 
   if (c.description) {
     const p = document.createElement("p");

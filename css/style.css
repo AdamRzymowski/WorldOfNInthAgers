@@ -1721,6 +1721,26 @@ a.link:focus-visible {
   }
 }
 
+.switch-country {
+  display: block;
+  width: 100%;
+  margin: 10px 0 4px;
+  padding: 9px 14px;
+  border: 2px solid var(--gold);
+  border-radius: 999px;
+  background: linear-gradient(var(--blood), var(--blood-dark));
+  color: var(--parchment-light);
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.switch-country:hover,
+.switch-country:focus-visible {
+  filter: brightness(1.15);
+}
+
 .card-logo-link {
   display: inline-flex;
   flex: none;
