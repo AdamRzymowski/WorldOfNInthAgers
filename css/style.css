@@ -1383,8 +1383,9 @@ a.link:focus-visible {
 
   /* Taller than the artwork: the map shows its middle slice at full height
      (see fitWorldView in app.js). */
+  /* …and leaves room for the header and search on screen. */
   .world-map {
-    height: min(118vw, 62svh);
+    height: clamp(300px, calc(100svh - 410px), 118vw);
     aspect-ratio: auto;
   }
 
@@ -1401,25 +1402,42 @@ a.link:focus-visible {
     margin-right: 40px;
   }
 
+  /* A proper header on phones: the emblem large and centred in a warm glow,
+     its link under it, then the call to join. */
   .corner {
     position: static;
     align-items: stretch;
-    gap: 8px;
+    gap: 12px;
     width: auto;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
   .t9a-link {
-    flex-direction: row;
-    justify-content: flex-end;
+    align-self: center;
     gap: 8px;
+    width: auto;
+  }
+
+  .t9a-link::before {
+    inset: -10% -40% 20%;
+    background: radial-gradient(closest-side, rgb(200 151 62 / 0.35), rgb(200 151 62 / 0.12) 55%, transparent);
+    filter: blur(6px);
+  }
+
+  .t9a-link img {
+    width: clamp(80px, 24vw, 120px);
+  }
+
+  .t9a-link span {
+    padding: 7px 14px;
+    font-size: 15px;
   }
 
   .join-cta {
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: center;
     width: auto;
-    gap: 8px;
+    gap: 10px;
   }
 
   .join-cta p {
@@ -1432,19 +1450,6 @@ a.link:focus-visible {
     width: 48px;
     height: 48px;
     font-size: 34px;
-  }
-
-  .t9a-link::before {
-    display: none; /* above the map on phones, already on a dark background */
-  }
-
-  .t9a-link img {
-    width: 44px;
-  }
-
-  .t9a-link span {
-    padding: 6px 10px;
-    font-size: 14px;
   }
 
   .map-controls {
@@ -1462,6 +1467,22 @@ a.link:focus-visible {
   .country-search button {
     padding: 11px 14px;
     font-size: 17px;
+  }
+
+  /* Box and button side by side under their label. */
+  .country-search {
+    margin-top: 12px;
+  }
+
+  .country-search label {
+    flex-basis: 100%;
+    text-align: center;
+  }
+
+  .country-search input {
+    flex: 1;
+    width: auto;
+    min-width: 0;
   }
 }
 
