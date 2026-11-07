@@ -55,8 +55,20 @@
         <div class="country-map-wrap">
           <svg id="country-map" class="country-map" role="img"></svg>
           <div id="community-card" class="community-card" role="dialog" aria-modal="false" hidden></div>
+          <div class="plant-hint" id="plant-hint" role="status" hidden>
+            <span>Plant your banner on the map!</span>
+            <button type="button" data-plant-cancel aria-label="Cancel">&times;</button>
+          </div>
+          <div class="banner-cursor" id="banner-cursor" aria-hidden="true" hidden>
+            <svg viewBox="0 0 60 80"><use href="#war-banner"></use></svg>
+            <span>Plant your banner on the map!</span>
+          </div>
         </div>
         <aside class="country-aside">
+          <button type="button" class="add-button" id="add-button">
+            <span class="plus" aria-hidden="true">+</span>
+            <span>Add community, store or point of contact on the map</span>
+          </button>
           <h3>Communities</h3>
           <ul id="community-list" class="community-list"></ul>
           <p class="empty" id="community-empty" hidden>
@@ -67,6 +79,91 @@
       </div>
     </div>
   </dialog>
+
+  <!-- Submissions go to Netlify Forms (the form must be in the HTML for Netlify to find it). -->
+  <dialog id="join-dialog" class="join-dialog" aria-labelledby="join-title">
+    <form class="parchment join-form" id="join-form" name="community-submission" method="POST"
+          data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" novalidate>
+      <input type="hidden" name="form-name" value="community-submission">
+      <input type="hidden" name="country">
+      <input type="hidden" name="latitude">
+      <input type="hidden" name="longitude">
+      <p class="visually-hidden"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+
+      <header class="join-header">
+        <h2 id="join-title" class="ribbon">Plant your banner</h2>
+        <button type="button" class="close" data-join-close aria-label="Close">&times;</button>
+      </header>
+
+      <div class="join-fields">
+        <p class="join-where" id="join-where"></p>
+
+        <label class="field">
+          <span>Name <em>(required)</em></span>
+          <input name="name" required maxlength="80" autocomplete="organization" placeholder="e.g. Klub Gargulec">
+        </label>
+
+        <fieldset class="contacts" id="join-contacts">
+          <legend>How can people reach you? <em>(at least one)</em></legend>
+          <label class="field contact" style="--brand: #5865f2">
+            <span>Discord server</span>
+            <input name="discord" maxlength="300" placeholder="https://discord.gg/…">
+          </label>
+          <label class="field contact" style="--brand: #8b1a10">
+            <span>Email</span>
+            <input name="email" type="email" maxlength="200" placeholder="name@example.com">
+          </label>
+          <label class="field contact" style="--brand: #25d366">
+            <span>WhatsApp group</span>
+            <input name="whatsapp" maxlength="300" placeholder="https://chat.whatsapp.com/…">
+          </label>
+          <label class="field contact" style="--brand: #0866ff">
+            <span>Facebook</span>
+            <input name="facebook" maxlength="300" placeholder="https://www.facebook.com/…">
+          </label>
+        </fieldset>
+
+        <div class="field logo-field">
+          <span>Logo <em>(optional, image up to 2 MB)</em></span>
+          <div class="logo-pick">
+            <span class="logo-preview" id="join-logo-preview" aria-hidden="true">+</span>
+            <input type="file" name="logo" id="join-logo" accept="image/png,image/jpeg,image/webp,image/gif">
+          </div>
+        </div>
+
+        <p class="join-error" id="join-error" role="alert" hidden></p>
+      </div>
+
+      <div class="join-actions">
+        <button type="button" class="secondary" data-join-close>Cancel</button>
+        <button type="submit" class="primary" id="join-submit">Plant banner</button>
+      </div>
+
+      <div class="join-done" id="join-done" hidden>
+        <p><strong>Your banner is planted!</strong></p>
+        <p>Thanks — we'll check the details and add it to the map soon.</p>
+        <button type="button" class="primary" data-join-close>Back to the map</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- A war banner waving in the wind: the planting cursor and the planted marker. -->
+  <svg class="visually-hidden" aria-hidden="true">
+    <symbol id="war-banner" viewBox="0 0 60 80">
+      <line x1="8" y1="5" x2="8" y2="78" stroke="#3b2210" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="8" cy="5" r="3.5" fill="#c8973e" stroke="#3b2210" stroke-width="1"/>
+      <path fill="#8b1a10" stroke="#c8973e" stroke-width="2" stroke-linejoin="round">
+        <animate attributeName="d" dur="1.1s" repeatCount="indefinite"
+          values="M9 9 C22 4 36 14 55 9 L51 24 L55 39 C36 44 22 34 9 39 Z;
+                  M9 9 C22 14 36 4 55 12 L50 27 L55 42 C36 34 22 44 9 39 Z;
+                  M9 9 C22 4 36 14 55 9 L51 24 L55 39 C36 44 22 34 9 39 Z"/>
+      </path>
+      <path fill="none" stroke="#c8973e" stroke-width="1.6" opacity="0.9">
+        <animate attributeName="d" dur="1.1s" repeatCount="indefinite"
+          values="M20 17 L30 30 L40 17; M20 19 L30 30 L40 15; M20 17 L30 30 L40 17"/>
+      </path>
+    </symbol>
+  </svg>
 
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>

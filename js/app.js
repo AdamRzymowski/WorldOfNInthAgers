@@ -1,6 +1,7 @@
 import { MAP_IMAGE, LANDMARKS, toImage, wrapLongitude, spansDateline, fitSpline } from "./calibration.js";
 import { linkInfo, safeUrl } from "./links.js";
 import { loadHitmap } from "./hitmap.js";
+import { setupJoin } from "./join.js";
 
 const DEBUG = new URLSearchParams(location.search).has("debug");
 const { width: W, height: H } = MAP_IMAGE;
@@ -341,6 +342,8 @@ const countryZoom = d3
 
 countrySvg.call(countryZoom);
 
+const join = setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent: () => current, getCanvasWidth: () => CW });
+
 function setCanvas(width, height) {
   CW = width;
   CH = height;
@@ -371,7 +374,10 @@ function loadMinimap(name) {
 
 async function openCountry(feature) {
   setHover(null);
+  // Arrived through "Want to put yourself on the map?": go straight to planting.
+  const plantNow = joinButton.getAttribute("aria-pressed") === "true";
   setJoining(false);
+  join.reset();
   closeCard();
   const list = communitiesFor(feature);
   title.textContent = feature.properties.name;
@@ -385,6 +391,28 @@ async function openCountry(feature) {
   });
   if (minimap) drawMinimap(feature, list, minimap);
   else drawCountry(feature, list);
+  if (plantNow) join.start();
+}
+
+// Map coordinates back to longitude/latitude on a minimap: Newton's method on
+// the landmark spline, starting from the country's middle.
+function invertSpline(toMap, x, y, [lon, lat]) {
+  const h = 0.01;
+  for (let i = 0; i < 40; i++) {
+    const [px, py] = toMap(lon, lat);
+    const ex = px - x;
+    const ey = py - y;
+    if (Math.hypot(ex, ey) < 0.05) break;
+    const [ax, ay] = toMap(lon + h, lat);
+    const [bx, by] = toMap(lon, lat + h);
+    const j00 = (ax - px) / h, j01 = (bx - px) / h;
+    const j10 = (ay - py) / h, j11 = (by - py) / h;
+    const det = j00 * j11 - j01 * j10;
+    if (!det) break;
+    lon -= (j11 * ex - j01 * ey) / det;
+    lat -= (-j10 * ex + j00 * ey) / det;
+  }
+  return [lon, lat];
 }
 
 function drawMinimap(feature, list, minimap) {
@@ -395,10 +423,13 @@ function drawMinimap(feature, list, minimap) {
   mapLayer.selectAll("*").remove();
   mapLayer.append("image").attr("href", config.image).attr("width", CW).attr("height", CH);
 
+  const middle = d3.geoCentroid(mainland(feature));
   current = {
     feature,
     list,
     minimap,
+    fromMap: (x, y) => invertSpline(toMap, x, y, middle),
+    contains: (x, y) => hits.nameAt(x, y) === config.country,
     nodes: list
       .filter((c) => Number.isFinite(c.lon) && Number.isFinite(c.lat))
       .map((community, i) => ({ community, index: i, anchor: toMap(community.lon, community.lat) })),
@@ -442,6 +473,8 @@ function drawCountry(feature, list) {
   current = {
     feature,
     list,
+    fromMap: (x, y) => projection.invert([x, y]),
+    contains: (x, y) => d3.geoContains(feature, projection.invert([x, y])),
     nodes: list
       .filter((c) => Number.isFinite(c.lon) && Number.isFinite(c.lat))
       .map((community, i) => ({ community, index: i, anchor: projection([community.lon, community.lat]) })),
@@ -749,7 +782,10 @@ countrySvg.on("click", (event) => {
 });
 
 dialog.addEventListener("cancel", (event) => {
-  if (!card.hidden) {
+  if (join.isPlanting()) {
+    event.preventDefault();
+    join.stop();
+  } else if (!card.hidden) {
     event.preventDefault();
     closeCard();
   }
@@ -757,6 +793,7 @@ dialog.addEventListener("cancel", (event) => {
 
 dialog.addEventListener("close", () => {
   closeCard();
+  join.reset();
   current = null;
   history.replaceState(null, "", location.pathname + location.search);
 });

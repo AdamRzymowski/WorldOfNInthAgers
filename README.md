@@ -169,6 +169,20 @@ python recolour_green.py ../data/country-maps/poland.json
 The gold version is kept in `assets/country-maps/gold/`; re-running starts
 from it, and `build_minimap.py` reads it so the gold detection keeps working.
 
+## Submissions ("plant your banner")
+
+Visitors add themselves from a country's view: the blue plus button turns the
+cursor into a waving banner, a click inside the country plants it, and a form
+asks for a name, at least one of Discord / email / WhatsApp / Facebook, and an
+optional logo (2 MB at most). The code is in [`js/join.js`](js/join.js).
+
+The form is a [Netlify Form](https://docs.netlify.com/forms/setup/) named
+`community-submission`: entries, with the planted latitude/longitude and the
+logo file, show up under **Forms** in the Netlify dashboard (turn on form
+detection there once, and add an email notification if you like). Nothing is
+added to the map automatically: copy approved entries into
+`data/communities.json`. Sending only works on Netlify, not on a local server.
+
 ## Credits
 
 - Country boundaries: [Natural Earth](https://www.naturalearthdata.com/) via
