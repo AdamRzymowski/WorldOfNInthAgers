@@ -1,7 +1,8 @@
 // "Add community, store or point of contact on the map": plant a banner on
 // the country map, then fill in a form that goes to Netlify Forms.
 
-const MAX_LOGO_BYTES = 2 * 1024 * 1024;
+const MAX_LOGO_BYTES = 15 * 1024 * 1024; // the original; what's sent is the small miniature
+const MINIATURE = 256; // px, square: the size community markers are drawn from
 const CONTACTS = ["discord", "email", "whatsapp", "facebook"];
 
 // countrySvg/mapLayer: the country view's d3 selections. getCurrent() returns
@@ -122,30 +123,38 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
     if (event.target === formDialog || event.target.closest("[data-join-close]")) closeForm();
   });
 
+  let miniature = null; // the logo as sent: a small square image made from the upload
+
   function resetLogo() {
+    miniature = null;
     logoPreview.replaceChildren("+");
     logoPreview.classList.remove("has-image");
   }
 
-  logoInput.addEventListener("change", () => {
+  logoInput.addEventListener("change", async () => {
     const file = logoInput.files[0];
     resetLogo();
     logoInput.setCustomValidity("");
+    errorEl.hidden = true;
     if (!file) return;
     if (!file.type.startsWith("image/")) {
       logoInput.setCustomValidity("Please choose an image file.");
     } else if (file.size > MAX_LOGO_BYTES) {
-      logoInput.setCustomValidity("The logo is too large (2 MB at most).");
+      logoInput.setCustomValidity("That image is too large (15 MB at most).");
     } else {
-      const img = document.createElement("img");
-      img.alt = "";
-      img.src = URL.createObjectURL(file);
-      img.onload = () => URL.revokeObjectURL(img.src);
-      logoPreview.replaceChildren(img);
-      logoPreview.classList.add("has-image");
-      return;
+      try {
+        miniature = await makeMiniature(file);
+      } catch (err) {
+        console.warn("Could not read the logo", err);
+        logoInput.setCustomValidity("That image couldn't be read. Try a PNG or JPEG.");
+      }
     }
-    showError(logoInput.validationMessage);
+    if (!miniature) return showError(logoInput.validationMessage);
+    const img = document.createElement("img");
+    img.alt = "";
+    img.src = URL.createObjectURL(miniature);
+    logoPreview.replaceChildren(img);
+    logoPreview.classList.add("has-image");
   });
 
   function showError(message, field) {
@@ -175,7 +184,10 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
     submit.disabled = true;
     submit.textContent = "Planting…";
     try {
-      const response = await fetch(form.getAttribute("action") ?? "/", { method: "POST", body: new FormData(form) });
+      const data = new FormData(form);
+      data.delete("logo");
+      if (miniature) data.set("logo", miniature, `${slug(form.elements.name.value)}-logo.${miniature.type.split("/")[1]}`);
+      const response = await fetch(form.getAttribute("action") ?? "/", { method: "POST", body: data });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       form.classList.add("sent");
       done.hidden = false;
@@ -190,6 +202,29 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
   });
 
   return { start, stop, isPlanting: () => planting, reset: () => (stop(), removePlanted()) };
+}
+
+// Scales the logo to fit a MINIATURE-pixel square (transparent around it, so
+// wide logos aren't cropped) and trims it to a small WebP, or PNG where the
+// browser can't write WebP.
+async function makeMiniature(file) {
+  const bitmap = await createImageBitmap(file);
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = MINIATURE;
+  const ctx = canvas.getContext("2d");
+  ctx.imageSmoothingQuality = "high";
+  const scale = MINIATURE / Math.max(bitmap.width, bitmap.height);
+  const w = bitmap.width * scale;
+  const h = bitmap.height * scale;
+  ctx.drawImage(bitmap, (MINIATURE - w) / 2, (MINIATURE - h) / 2, w, h);
+  bitmap.close();
+  const encode = (type) => new Promise((resolve) => canvas.toBlob(resolve, type, 0.9));
+  const webp = await encode("image/webp");
+  return webp?.type === "image/webp" ? webp : encode("image/png");
+}
+
+function slug(text) {
+  return text.toLowerCase().normalize("NFKD").replace(/[^\w]+/g, "-").replace(/^-|-$/g, "") || "community";
 }
 
 function formatCoord(value, positive, negative) {

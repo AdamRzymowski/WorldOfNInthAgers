@@ -174,7 +174,7 @@ from it, and `build_minimap.py` reads it so the gold detection keeps working.
 Visitors add themselves from a country's view: the blue plus button turns the
 cursor into a waving banner, a click inside the country plants it, and a form
 asks for a name, at least one of Discord / email / WhatsApp / Facebook, and an
-optional logo (2 MB at most). The code is in [`js/join.js`](js/join.js).
+optional logo (shrunk in the browser to a 256 px square miniature before sending). The code is in [`js/join.js`](js/join.js).
 
 The form is a [Netlify Form](https://docs.netlify.com/forms/setup/) named
 `community-submission`: entries, with the planted latitude/longitude and the
