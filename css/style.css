@@ -355,9 +355,13 @@ button {
 
 /* -------------------------------------------------------- country dialog */
 
+/* Almost the whole screen: the parchment fills it and the map takes the
+   room left under the header. */
 .country-dialog {
-  width: min(1120px, calc(100vw - 24px));
-  max-height: calc(100vh - 24px);
+  width: calc(100vw - 24px);
+  height: calc(100dvh - 24px);
+  max-width: none;
+  max-height: none;
   padding: 0;
   border: none;
   background: transparent;
@@ -383,7 +387,7 @@ button {
 
 .parchment {
   position: relative;
-  max-height: calc(100vh - 24px);
+  max-height: calc(100dvh - 24px);
   overflow: auto;
   padding: 18px 20px 20px;
   border: 3px solid var(--ink-soft);
@@ -431,8 +435,49 @@ button {
 
 .country-header .close {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 56px;
+  height: 56px;
+  border: 3px solid var(--gold);
+  background: linear-gradient(var(--blood), var(--blood-dark));
+  color: var(--parchment-light);
+  font-size: 40px;
+  box-shadow: 0 0 0 2px rgb(20 12 6 / 0.6), 0 4px 12px rgb(0 0 0 / 0.5);
+  transition: transform 0.15s;
+}
+
+.country-header .close:hover,
+.country-header .close:focus-visible {
+  transform: scale(1.08);
+}
+
+/* The parchment is a column on wider screens: header, view switch, then the
+   map and list filling the rest. */
+.country-dialog .parchment {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.country-dialog .country-body {
+  flex: 1;
+  min-height: 0;
+}
+
+.country-dialog .country-map-wrap {
+  min-height: 0;
+  background: #e9cf98; /* the sea, around a map narrower than the window */
+}
+
+.country-dialog .country-map {
+  height: 100%;
+}
+
+.country-aside {
+  min-height: 0;
+  overflow: auto;
 }
 
 .close:hover {
@@ -810,8 +855,38 @@ a.link:focus-visible {
 /* The big switch between the painting and the real map, under the country name. */
 .view-switch {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 12px;
   margin: -4px 0 12px;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px 10px 14px;
+  border: 2px solid var(--gold);
+  border-radius: 999px;
+  background: linear-gradient(var(--blood), var(--blood-dark));
+  color: var(--parchment-light);
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 0 2px rgb(20 12 6 / 0.6), 0 4px 12px rgb(0 0 0 / 0.5);
+  transition: transform 0.15s;
+}
+
+.back-button::before {
+  content: "\2190";
+  font-size: 22px;
+  line-height: 1;
+}
+
+.back-button:hover,
+.back-button:focus-visible {
+  transform: scale(1.05);
 }
 
 .view-toggle {
@@ -1360,11 +1435,53 @@ a.link:focus-visible {
 }
 
 .join-done {
+  padding: 18px 12px 8px;
   text-align: center;
+  animation: unfurl 0.3s ease-out;
 }
 
 .join-done p {
   margin: 0 0 8px;
+}
+
+.done-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  margin-bottom: 12px;
+  border: 3px solid var(--gold);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #4caf50, #1e6b2a 70%);
+  color: #fff;
+  font-size: 48px;
+  line-height: 1;
+  box-shadow: 0 0 0 3px rgb(20 12 6 / 0.6), 0 6px 18px rgb(0 0 0 / 0.4);
+}
+
+.join-done .done-title {
+  margin: 0;
+  color: #1e6b2a;
+  font-family: var(--display);
+  font-size: 38px;
+  font-weight: 700;
+}
+
+.join-done .done-text {
+  margin-bottom: 6px;
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.join-done .done-note {
+  margin-bottom: 18px;
+  color: var(--ink-soft);
+}
+
+.join-done .primary {
+  padding: 12px 24px;
+  font-size: 18px;
 }
 
 @media (max-width: 760px) {
@@ -1397,9 +1514,38 @@ a.link:focus-visible {
     grid-template-columns: 1fr;
   }
 
+  /* On phones the map keeps its own shape and the list scrolls under it. */
+  .country-dialog {
+    width: calc(100vw - 16px);
+    height: calc(100dvh - 16px);
+  }
+
+  .country-dialog .parchment {
+    display: block;
+    max-height: 100%;
+  }
+
+  .country-dialog .country-map {
+    height: auto;
+  }
+
+  .country-header .close {
+    top: 10px;
+    right: 10px;
+    width: 48px;
+    height: 48px;
+    font-size: 34px;
+  }
+
   .ribbon {
     padding: 4px 20px;
-    margin-right: 40px;
+    margin: 0 52px 0 0;
+  }
+
+  .back-button,
+  .view-toggle {
+    padding: 8px 14px 8px 10px;
+    font-size: 16px;
   }
 
   /* A proper header on phones: the emblem large and centred in a warm glow,

@@ -50,13 +50,14 @@
     </form>
   </main>
 
-  <dialog id="country-dialog" class="country-dialog" aria-labelledby="country-title">
+  <dialog id="country-dialog" class="country-dialog" aria-labelledby="country-title" closedby="none">
     <div class="parchment">
       <header class="country-header">
         <h2 id="country-title" class="ribbon"></h2>
         <button type="button" class="close" data-close aria-label="Close">&times;</button>
       </header>
       <div class="view-switch">
+        <button type="button" class="back-button" data-close>Back to the world map</button>
         <button type="button" class="view-toggle" id="view-toggle" aria-pressed="false">Real World View</button>
       </div>
       <div class="country-body">
@@ -193,9 +194,11 @@
         <button type="button" class="secondary" data-join-close>Cancel</button>
       </div>
 
-      <div class="join-done" id="join-done" hidden>
-        <p><strong>Your banner is planted!</strong></p>
-        <p>Thanks — we'll check the details and add it to the map soon.</p>
+      <div class="join-done" id="join-done" role="status" hidden>
+        <span class="done-mark" aria-hidden="true">&#10003;</span>
+        <p class="done-title">Done!</p>
+        <p class="done-text">Our team will review it and add it soon!</p>
+        <p class="done-note">Your banner will appear on the map once it's approved.</p>
         <button type="button" class="primary" data-join-close>Back to the map</button>
       </div>
     </form>

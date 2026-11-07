@@ -719,11 +719,12 @@ function positionCard(node) {
     card.style.top = `${Math.max(8, (wrap.height - cardBox.height) / 2)}px`;
     return;
   }
-  const sx = wrap.width / CW;
-  const sy = wrap.height / CH;
-  const mx = node.x * sx;
-  const my = node.y * sy;
-  const gap = (MARKER_R + 12) * sy;
+  // The map may not fill the wrap (it keeps its shape in a wider window).
+  const ctm = countrySvg.node().getScreenCTM();
+  const marker = new DOMPoint(node.x, node.y).matrixTransform(ctm);
+  const mx = marker.x - wrap.left;
+  const my = marker.y - wrap.top;
+  const gap = (MARKER_R + 12) * ctm.d;
   let top = my - gap - cardBox.height;
   if (top < 8) top = my + gap + 14;
   top = Math.min(top, wrap.height - cardBox.height - 8);
@@ -809,8 +810,9 @@ function logoElement(community, className) {
 
 /* ----------------------------------------------------------- dialog wiring */
 
+// Only the × and "Back to the world map" close the country: not a click
+// outside it, nor Escape (see "cancel" below).
 dialog.addEventListener("click", (event) => {
-  if (event.target === dialog) dialog.close();
   if (event.target.closest("[data-close]")) dialog.close();
 });
 
@@ -820,13 +822,9 @@ countrySvg.on("click", (event) => {
 });
 
 dialog.addEventListener("cancel", (event) => {
-  if (join.isPlanting()) {
-    event.preventDefault();
-    join.stop();
-  } else if (!card.hidden) {
-    event.preventDefault();
-    closeCard();
-  }
+  event.preventDefault();
+  if (join.isPlanting()) join.stop();
+  else closeCard();
 });
 
 dialog.addEventListener("close", () => {
@@ -835,6 +833,7 @@ dialog.addEventListener("close", () => {
   street.reset();
   current = null;
   history.replaceState(null, "", location.pathname + location.search);
+  window.scrollTo(0, 0); // back on the landing page, from its top
 });
 
 function openFromHash() {
