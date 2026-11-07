@@ -926,14 +926,19 @@ a.link:focus-visible {
   text-align: center;
 }
 
+/* minmax(0, 1fr) and min-width: 0 let inputs shrink to narrow phones
+   instead of pushing the form wider than the screen. */
 .join-fields {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
 }
 
 .join-form .field {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 4px;
+  min-width: 0;
 }
 
 .join-form .field > span,
@@ -973,6 +978,8 @@ a.link:focus-visible {
 
 .contacts {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
   gap: 8px;
   margin: 0;
   padding: 10px 12px 12px;
