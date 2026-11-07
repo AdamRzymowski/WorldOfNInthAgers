@@ -366,8 +366,8 @@ const join = setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent: () => curren
 const street = setupStreetMap({
   mapWrap,
   join,
-  getCurrent: () => current,
   getBounds: () => d3.geoBounds(mainland(current.feature)),
+  getAll: () => [...communitiesByCountry.values()].flat(),
   showCommunity: (community) => openCard({ community }),
   logoOf,
 });

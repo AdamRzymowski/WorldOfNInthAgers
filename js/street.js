@@ -8,9 +8,10 @@ const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright" ta
 // which a person typing an address never comes near.
 const SEARCH = "https://nominatim.openstreetmap.org/search";
 
-// getCurrent() returns the open country ({ feature, list }); getBounds() its
-// mainland as [[west, south], [east, north]]; showCommunity(c) opens a card.
-export function setupStreetMap({ mapWrap, join, getCurrent, getBounds, showCommunity, logoOf }) {
+// getBounds() returns the open country's mainland as [[west, south], [east,
+// north]]; getAll() every community on the site, so neighbours across the
+// border show too; showCommunity(c) opens a card.
+export function setupStreetMap({ mapWrap, join, getBounds, getAll, showCommunity, logoOf }) {
   const container = document.getElementById("street-map");
   const toggle = document.getElementById("view-toggle");
   const search = document.getElementById("street-search");
@@ -43,7 +44,7 @@ export function setupStreetMap({ mapWrap, join, getCurrent, getBounds, showCommu
 
   function drawCommunities() {
     markers.clearLayers();
-    for (const community of getCurrent().list) {
+    for (const community of getAll()) {
       if (!Number.isFinite(community.lat) || !Number.isFinite(community.lon)) continue;
       const icon = L.divIcon({
         className: "street-marker",
