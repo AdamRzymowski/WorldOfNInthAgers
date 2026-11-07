@@ -33,6 +33,33 @@
         ],
         "region": "Gdańsk",
         "logo": "assets/logos/gargulec.webp"
+      },
+      {
+        "name": "Drobne Wałeczki",
+        "lat": 52.6211,
+        "lon": 19.4851,
+        "type": "Club/Community",
+        "gamingSpace": false,
+        "region": "Warsaw",
+        "forumUsername": "Semi",
+        "discordUsername": "Semi_dw",
+        "logo": "assets/logos/drobne-waleczki.webp"
+      },
+      {
+        "name": "Rzymek",
+        "lat": 53.77,
+        "lon": 18.88,
+        "type": "Person",
+        "gamingSpace": true,
+        "discordUsername": "Rzymek",
+        "links": [
+          {
+            "type": "discord",
+            "label": "Join the Discord server",
+            "url": "https://discord.gg/3dxfmnCFT"
+          }
+        ],
+        "logo": "assets/logos/rzymek.webp"
       }
     ]
   }
