@@ -432,6 +432,8 @@ async function openCountry(feature) {
   });
   if (minimap) drawMinimap(feature, list, minimap);
   else drawCountry(feature, list);
+  // Real World View by default; the painted map is one click away.
+  street.show();
   if (plantNow) join.start();
 }
 

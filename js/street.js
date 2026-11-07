@@ -116,6 +116,8 @@ export function setupStreetMap({ mapWrap, join, getBounds, getAll, showCommunity
 
   return {
     isOn: () => !container.hidden,
+    // The real map, fitted to the open country: how every country opens.
+    show: () => setView(true),
     // Back to the painted map, e.g. when another country opens.
     reset() {
       found = null;
