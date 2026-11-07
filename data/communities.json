@@ -21,6 +21,28 @@
         ],
         "region": "Gdańsk",
         "logo": "assets/logos/gargulec.webp"
+      },
+      {
+        "name": "Salamandra",
+        "lat": 52.7897,
+        "lon": 18.6061,
+        "links": [
+          {
+            "type": "facebook",
+            "label": "Test"
+          }
+        ]
+      },
+      {
+        "name": "Salamandra",
+        "lat": 52.9199,
+        "lon": 18.7307,
+        "links": [
+          {
+            "type": "whatsapp",
+            "label": "Test"
+          }
+        ]
       }
     ]
   }
