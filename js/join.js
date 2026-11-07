@@ -4,7 +4,7 @@
 const MAX_LOGO_BYTES = 15 * 1024 * 1024; // the original; what's sent is the small miniature
 const MINIATURE = 256; // px, square: the size community markers are drawn from
 const CONTACTS = ["discord", "email", "whatsapp", "facebook"];
-const MAX_LENGTH = { name: 100, address: 30, discord: 50, email: 50, forum_username: 50, discord_username: 38, comment: 200 };
+const MAX_LENGTH = { name: 100, address: 30, discord: 50, email: 50, forum_username: 50, discord_username: 38, website: 200, comment: 200 };
 const LOGO_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
 // An invite link: discord.gg/<code> or discord.com/invite/<code>, with or without https://.
 // 2–32 of letters, digits, _ and . (Discord's own rule), with an optional
@@ -172,7 +172,7 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
 
   function validate() {
     const { elements } = form;
-    for (const key of ["name", "address", "forum_username", "discord_username", "comment", ...CONTACTS]) elements[key].value = elements[key].value.trim();
+    for (const key of ["name", "address", "forum_username", "discord_username", "website", "comment", ...CONTACTS]) elements[key].value = elements[key].value.trim();
     if (!elements.name.value) return showError("Please give a name.", elements.name), false;
     if (!elements.type.value) return showError("Choose a type: Club/Community, Store or Person.", elements.type), false;
     if (!elements.gaming_space.value) {
@@ -183,7 +183,7 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
     }
     for (const [key, max] of Object.entries(MAX_LENGTH)) {
       if (elements[key].value.length > max) {
-        const label = { name: "The name", address: "The address", forum_username: "The T9A forum username", discord_username: "The Discord username", comment: "The extra comment", discord: "The Discord link", email: "The email address" }[key];
+        const label = { name: "The name", address: "The address", forum_username: "The T9A forum username", discord_username: "The Discord username", website: "The website", comment: "The extra comment", discord: "The Discord link", email: "The email address" }[key];
         return showError(`${label} can be at most ${max} characters.`, elements[key]), false;
       }
     }
@@ -195,6 +195,11 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
     }
     if (elements.email.value && !isEmail(elements.email.value)) {
       return showError("That email address doesn't look right.", elements.email), false;
+    }
+    if (elements.website.value) {
+      const url = webUrl(elements.website.value);
+      if (!url) return showError("The website should be a link, like https://example.com.", elements.website), false;
+      elements.website.value = url;
     }
     if (elements.facebook.value) {
       const url = webUrl(elements.facebook.value);

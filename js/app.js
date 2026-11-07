@@ -638,6 +638,18 @@ function openCard(node) {
     p.textContent = c.region;
     heading.append(p);
   }
+  const facts = [c.type, c.gamingSpace === true ? "Has gaming space" : c.gamingSpace === false ? "No gaming space" : null];
+  if (facts.some(Boolean)) {
+    const p = document.createElement("p");
+    p.className = "facts";
+    for (const fact of facts.filter(Boolean)) {
+      const tag = document.createElement("span");
+      tag.className = "tag";
+      tag.textContent = fact;
+      p.append(tag);
+    }
+    heading.append(p);
+  }
   // The logo doubles as a button to the community's main link.
   const mainLink = (c.links ?? []).map((link) => safeUrl(link, linkInfo(link.type))).find(Boolean);
   const logo = logoElement(c, "card-logo");
@@ -662,7 +674,12 @@ function openCard(node) {
     card.append(p);
   }
 
-  const links = c.links ?? [];
+  // Usernames show with the links, as text to copy.
+  const links = [
+    ...(c.links ?? []),
+    ...(c.discordUsername ? [{ type: "discord", title: "Discord username", label: c.discordUsername }] : []),
+    ...(c.forumUsername ? [{ type: "contact", title: "T9A forum username", label: c.forumUsername }] : []),
+  ];
   if (links.length) {
     const ul = document.createElement("ul");
     ul.className = "links";
@@ -685,7 +702,8 @@ function openCard(node) {
 
 function positionCard(node) {
   const wrap = mapWrap.getBoundingClientRect();
-  const cardBox = card.getBoundingClientRect();
+  // offset sizes, not the bounding box: the card's opening animation scales it.
+  const cardBox = { width: card.offsetWidth, height: card.offsetHeight };
   if (!node) {
     card.style.left = `${(wrap.width - cardBox.width) / 2}px`;
     card.style.top = `${Math.max(8, (wrap.height - cardBox.height) / 2)}px`;

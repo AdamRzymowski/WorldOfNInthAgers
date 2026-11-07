@@ -20,7 +20,7 @@ copied into `data/communities.json`. So before any push to GitHub (on every
    (to 4 decimals).
 3. List every submission that is not on the map yet: name, country,
    location, type (Club/Community, Store or Person), whether it has a gaming
-   space, contacts, T9A forum and Discord usernames, whether it has a logo, and when it arrived. If there
+   space, contacts, website, T9A forum and Discord usernames, whether it has a logo, and when it arrived. If there
    are none, say so in one line.
 4. Wait for the user to decide on each one: add it to the map, leave it
    pending, or mark it as spam / delete it in Netlify. Don't add, delete or
@@ -51,13 +51,21 @@ When the user says this:
 
 ## Adding a submission
 
-Put it under its country in `data/communities.json` with
-`name`, `lat`, `lon`, `type` and `gamingSpace` (true/false) from the form, `region` from its address (if given), `description` from its extra
-comment (if given and it reads as one; otherwise just show it to the user) and a
-link per contact (`discord`, `email`, `whatsapp`,
-`facebook`; a value that isn't a link becomes a label with no `url`). If it
-has a logo, download it into `assets/logos/<slug>.webp` and set `logo`;
-without one the Ninth Age banner is used.
+Put it under its country in `data/communities.json` with:
+
+- `name`, `lat`, `lon`;
+- `type` and `gamingSpace` (`true`/`false`);
+- `region` from its address, if given;
+- `description` from its extra comment, if given and it reads as one
+  (otherwise just show the comment to the user);
+- `forumUsername` and `discordUsername`, if given;
+- a link per contact (`discord`, `email`, `whatsapp`, `facebook`) and
+  `website` for its website; a value that isn't a link becomes a label with
+  no `url`;
+- `logo`, if it sent one: download it into `assets/logos/<slug>.webp`.
+  Without one the Ninth Age banner is used.
+
+The community card shows all of these.
 
 ## Versions and pushing
 
