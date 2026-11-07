@@ -1137,6 +1137,13 @@ a.link:focus-visible {
   font-weight: 700;
 }
 
+/* The address's promise of privacy has to be noticed. */
+.join-form em.privacy-note {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .join-form em {
   font-family: var(--body);
   font-weight: 400;
