@@ -109,6 +109,7 @@
       <input type="hidden" name="country">
       <input type="hidden" name="latitude">
       <input type="hidden" name="longitude">
+      <input type="hidden" name="pin_from">
       <p class="visually-hidden"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 
       <header class="join-header">
@@ -147,7 +148,7 @@
         </fieldset>
 
         <label class="field">
-          <span>Address <em class="privacy-note">(optional, never shown on the map: only the banner is)</em></span>
+          <span>Address <em class="privacy-note">(optional, never shown on the map: only the banner is)</em> <small class="field-hint">If we can find it, your banner goes there instead of where you planted it.</small></span>
           <input name="address" maxlength="100" autocomplete="street-address" placeholder="e.g. Długa 12, Gdańsk">
         </label>
 

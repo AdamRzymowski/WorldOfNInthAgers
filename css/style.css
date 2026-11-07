@@ -1258,6 +1258,15 @@ a.link:focus-visible {
   text-underline-offset: 2px;
 }
 
+.join-form .field-hint {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
 .join-form em {
   font-family: var(--body);
   font-weight: 400;

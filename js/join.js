@@ -12,6 +12,8 @@ const LOGO_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
 // leading @ and the old #1234 tag still accepted.
 const DISCORD_USERNAME = /^@?[a-z0-9_.]{2,32}(#\d{4})?$/i;
 const DISCORD_INVITE = /^(https?:\/\/)?(www\.)?(discord\.gg|discord(app)?\.com\/invite)\/[a-z0-9-]{2,32}\/?$/i;
+// Free address search (OpenStreetMap), as on the Real World View.
+const SEARCH = "https://nominatim.openstreetmap.org/search";
 
 // countrySvg/mapLayer: the country view's d3 selections. getCurrent() returns
 // the open country: { feature, fromMap(x, y) -> [lon, lat], contains(x, y) },
@@ -263,6 +265,7 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
     submit.disabled = true;
     submit.textContent = "Planting…";
     try {
+      await pinToAddress();
       const data = new FormData(form);
       data.delete("logo");
       if (miniature) data.set("logo", miniature, `${slug(form.elements.name.value)}-logo.${miniature.type.split("/")[1]}`);
@@ -280,7 +283,42 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
     }
   });
 
+  // The banner planted by hand only roughly marks the spot: a given address,
+  // when it can be found inside the country, decides the location instead.
+  // pin_from tells the review which one was used.
+  async function pinToAddress() {
+    const { elements } = form;
+    elements.pin_from.value = "map";
+    const address = elements.address.value.trim();
+    if (!address) return;
+    const lonLat = await findAddress(address, getCurrent().feature);
+    if (!lonLat) return;
+    elements.longitude.value = lonLat[0].toFixed(4);
+    elements.latitude.value = lonLat[1].toFixed(4);
+    elements.pin_from.value = "address";
+  }
+
   return { start, stop, place, isPlanting: () => planting, reset: () => (stop(), removePlanted()) };
+}
+
+// [lon, lat] of the address, or null when it isn't found in the country or
+// the search doesn't answer in time (the hand-planted spot is kept then).
+async function findAddress(address, feature) {
+  const params = new URLSearchParams({
+    q: `${address}, ${feature.properties.name}`,
+    format: "jsonv2",
+    limit: "1",
+    "accept-language": navigator.language,
+  });
+  try {
+    const response = await fetch(`${SEARCH}?${params}`, { signal: AbortSignal.timeout(6000) });
+    const [place] = response.ok ? await response.json() : [];
+    const lonLat = place && [Number(place.lon), Number(place.lat)];
+    return lonLat && lonLat.every(Number.isFinite) && d3.geoContains(feature, lonLat) ? lonLat : null;
+  } catch (err) {
+    console.warn("Address search failed", err);
+    return null;
+  }
 }
 
 // Scales the logo to fit a MINIATURE-pixel square (transparent around it, so

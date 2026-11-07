@@ -61,7 +61,9 @@ Put it under its country in `data/communities.json` with:
 
 - `name`, `lat`, `lon`. For a **Person**, round `lat`/`lon` to 2 decimals
   (about 1 km) so the pin doesn't point at their home; clubs and stores keep
-  the exact spot;
+  the exact spot. The form already moves the pin to the address when it can
+  find it (`pin_from` is `address`); when it says `map`, the pin is where
+  they clicked, so check it against any address given;
 - `type` and `gamingSpace` (`true`/`false`);
 - `region`: only the town or city, taken from the address. Never publish the
   street address itself; it stays in Netlify;
