@@ -159,6 +159,16 @@ python build_minimap.py ../data/country-maps/poland.json --cells
 region numbered and its coordinates, to help pick the points. The build
 warns when a point lands on a pen line or two countries share a region.
 
+4. If the country is painted gold, make it grassy green like the rest, after
+   the build (and after `repaint_land.py`, if used):
+
+```bash
+python recolour_green.py ../data/country-maps/poland.json
+```
+
+The gold version is kept in `assets/country-maps/gold/`; re-running starts
+from it, and `build_minimap.py` reads it so the gold detection keeps working.
+
 ## Credits
 
 - Country boundaries: [Natural Earth](https://www.naturalearthdata.com/) via

@@ -74,7 +74,9 @@ TEMPLATE = {
     "corner bottom right": (0.88, 0.85, 1, 1),
 }
 
-art = Image.open(ROOT / cfg["image"]).convert("RGB")
+# Maps recoloured green by recolour_green.py are detected from their gold copy.
+gold_copy = ROOT / "assets/country-maps/gold" / Path(cfg["image"]).name
+art = Image.open(gold_copy if gold_copy.exists() else ROOT / cfg["image"]).convert("RGB")
 W, H = art.size
 grey = np.asarray(art.convert("L"))
 
