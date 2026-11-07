@@ -302,10 +302,6 @@ const mapWrap = document.querySelector(".country-map-wrap");
 const defs = countrySvg.append("defs");
 const mapLayer = countrySvg.append("g").attr("class", "country-layer");
 const markerLayer = countrySvg.append("g").attr("class", "marker-layer");
-const mapTooltip = document.createElement("div");
-mapTooltip.className = "tooltip";
-mapTooltip.hidden = true;
-mapWrap.append(mapTooltip);
 
 let current = null; // { feature, list, projection, nodes }
 let lastTransform = d3.zoomIdentity;
@@ -378,15 +374,10 @@ async function openCountry(feature) {
 function drawMinimap(feature, list, minimap) {
   const { config, hits, toMap } = minimap;
   setCanvas(hits.width, hits.height);
-  minimapHovered = null;
 
+  // Only the community markers are interactive here, not the countries.
   mapLayer.selectAll("*").remove();
   mapLayer.append("image").attr("href", config.image).attr("width", CW).attr("height", CH);
-  mapLayer
-    .append("image")
-    .attr("class", "highlight")
-    .attr("preserveAspectRatio", "none")
-    .attr("visibility", "hidden");
 
   current = {
     feature,
@@ -400,46 +391,8 @@ function drawMinimap(feature, list, minimap) {
   countrySvg.call(countryZoom.transform, d3.zoomIdentity);
 }
 
-function minimapCountryAt(event) {
-  if (!current?.minimap) return null;
-  const [x, y] = d3.pointer(event, mapLayer.node());
-  const name = current.minimap.hits.nameAt(x, y);
-  return name ? byName.get(normalize(name)) ?? null : null;
-}
-
-let minimapHovered = null;
-function setMinimapHover(f, event) {
-  const hl = mapLayer.select(".highlight");
-  if (f !== minimapHovered) {
-    minimapHovered = f;
-    // Only the featured country highlights; neighbours just show their name.
-    const isCurrent = f === current?.feature;
-    const m = isCurrent && current.minimap.hits.mask(f.properties.name, { fill: [255, 236, 170, 70], edge: [139, 26, 16, 230] });
-    if (m) hl.attr("href", m.href).attr("x", m.x).attr("y", m.y).attr("width", m.width).attr("height", m.height).attr("visibility", "visible");
-    else hl.attr("visibility", "hidden");
-  }
-  if (!f) {
-    mapTooltip.hidden = true;
-    return;
-  }
-  const box = mapWrap.getBoundingClientRect();
-  mapTooltip.textContent = f.properties.name;
-  mapTooltip.hidden = false;
-  mapTooltip.style.left = `${Math.min(Math.max(event.clientX - box.left, 70), box.width - 70)}px`;
-  mapTooltip.style.top = `${event.clientY - box.top}px`;
-}
-
-countrySvg
-  .on("pointermove.minimap", (event) => {
-    if (!current?.minimap || event.target.closest(".badge")) return setMinimapHover(null);
-    setMinimapHover(minimapCountryAt(event), event);
-  })
-  .on("pointerleave.minimap", () => current?.minimap && setMinimapHover(null));
-
 function drawCountry(feature, list) {
   setCanvas(800, 560);
-  minimapHovered = null;
-  mapTooltip.hidden = true;
   const land = mainland(feature);
   const [centerLon] = d3.geoCentroid(land);
   const points = list
@@ -467,9 +420,7 @@ function drawCountry(feature, list) {
     .data(countries.filter((f) => f !== feature))
     .join("path")
     .attr("class", "neighbour")
-    .attr("d", path)
-    .append("title")
-    .text((f) => f.properties.name);
+    .attr("d", path);
   mapLayer.append("path").attr("class", "chosen").attr("d", path(feature));
 
   current = {
