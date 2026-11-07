@@ -1508,9 +1508,41 @@ a.link:focus-visible {
   color: var(--ink-soft);
 }
 
-.join-done .primary {
-  padding: 12px 24px;
-  font-size: 18px;
+/* After sending, the Done button is the only way to close the form. */
+.join-form.sent .join-header .close {
+  display: none;
+}
+
+.join-form .done-button {
+  display: inline-grid;
+  justify-items: center;
+  gap: 4px;
+  width: min(100%, 360px);
+  padding: 14px 20px 12px;
+  border: 3px solid var(--gold);
+  border-radius: 14px;
+  background: radial-gradient(circle at 35% 30%, #4caf50, #1e6b2a 75%);
+  box-shadow: 0 0 0 2px rgb(20 12 6 / 0.6), 0 6px 16px rgb(0 0 0 / 0.4);
+  transition: transform 0.15s;
+}
+
+.join-form .done-button:hover,
+.join-form .done-button:focus-visible {
+  background: radial-gradient(circle at 35% 30%, #5cc261, #237a31 75%);
+  transform: scale(1.03);
+}
+
+.done-word {
+  font-family: var(--display);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.done-info {
+  font-size: 15px;
 }
 
 @media (max-width: 760px) {

@@ -195,10 +195,14 @@
 
       <div class="join-done" id="join-done" role="status" hidden>
         <span class="done-mark" aria-hidden="true">&#10003;</span>
-        <p class="done-title">Done!</p>
+        <p class="done-title">Banner sent!</p>
         <p class="done-text">Our team will review it and add it soon!</p>
-        <p class="done-note">Your banner will appear on the map once it's approved.</p>
-        <button type="button" class="primary" data-join-close>Back to the map</button>
+        <p class="done-note">It can take <strong>up to 24 hours</strong> for your banner to appear on the map.</p>
+        <!-- The only way out once sent, so the 24 hours are read on the way. -->
+        <button type="button" class="primary done-button" data-join-close>
+          <span class="done-word">Done</span>
+          <span class="done-info">My banner will be on the map within 24 hours</span>
+        </button>
       </div>
     </form>
   </dialog>
