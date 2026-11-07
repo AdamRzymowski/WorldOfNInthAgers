@@ -7,33 +7,39 @@ See README.md for how the map, minimaps and submissions work.
 ## Before every push: review pending submissions
 
 Visitors add communities through the "plant your banner" form, which goes to
-the Netlify form `community-submission`. Nothing reaches the map until it is
-copied into `data/communities.json`. So before any push to GitHub (on every
-"push" request, before running `git push`):
+the Netlify form `community-submission`. Submissions go on the map by
+themselves once they are 24 hours old (`/api/communities`, see README.md),
+unless deleted or marked as spam in Netlify first. So before any push to GitHub
+(on every "push" request, before running `git push`):
 
 1. Open the submissions in the browser pane:
    https://app.netlify.com/projects/t9a-community/forms (form
    `community-submission`, then **Expand all**). If it shows a sign-in page,
    ask the user to sign in there; never enter credentials yourself.
-2. Compare them with `data/communities.json`. A submission is on the map when
-   that country has an entry with the same name at the same latitude/longitude
-   (to 4 decimals).
-3. List every submission that is not on the map yet: name, country,
+2. Compare them with `data/communities.json`. A submission is already in it
+   when that country has an entry with the same name.
+3. List every submission that is not in it yet, marking which are under 24
+   hours old (still pending) and which are already live through
+   auto-approval: name, country,
    location, type (Club/Community, Store or Person), whether it has a gaming
    space, contacts, website, T9A forum and Discord usernames, whether it has a logo, and when it arrived. If there
    are none, say so in one line.
-4. Wait for the user to decide on each one: add it to the map, leave it
-   pending, or mark it as spam / delete it in Netlify. Don't add, delete or
+4. Point out anything that looks like spam or a duplicate (see below) before
+   it goes live. Wait for the user to decide on each one: copy it into
+   `communities.json`, let auto-approval handle it, or mark it as spam / delete
+   it in Netlify. Don't add, delete or
    mark anything they haven't decided on.
 5. Only then push. If the user says to push without reviewing, push and note
    that submissions were not reviewed.
 
 ## "Add all pending communities"
 
-When the user says this:
+When the user says this (it copies submissions into `communities.json`,
+for example to approve one before its 24 hours are up or to give it a
+region):
 
-1. Read the submissions and find the ones not on the map yet, as in steps 1–2
-   above.
+1. Read the submissions and find the ones not in `communities.json` yet, as
+   in steps 1–2 above.
 2. Check each against the map and against the other pending submissions for
    likely duplicates. Flag a pair when any of these hold:
    - the names match ignoring case, accents, spaces and punctuation, or are

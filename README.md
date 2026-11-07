@@ -185,9 +185,31 @@ The address they type goes only to you; the site shows just the banner.
 The form is a [Netlify Form](https://docs.netlify.com/forms/setup/) named
 `community-submission`: entries, with the planted latitude/longitude and the
 logo file, show up under **Forms** in the Netlify dashboard (turn on form
-detection there once, and add an email notification if you like). Nothing is
-added to the map automatically: copy approved entries into
-`data/communities.json`. Sending only works on Netlify, not on a local server.
+detection there once, and add an email notification if you like). Sending
+only works on Netlify, not on a local server.
+
+### Auto-approval after 24 hours
+
+A submission goes on the map by itself once it is 24 hours old, with no
+deploy: [`netlify/functions/communities.mjs`](netlify/functions/communities.mjs)
+serves `/api/communities` (the approved submissions, in the same shape as
+`data/communities.json`) and the site adds them to that file's entries. To keep
+one off the map, delete it or mark it as spam in Netlify within the 24 hours;
+deleting it later takes it off again. Netlify's CDN caches the answer for 5
+minutes, so changes show within about 5 minutes.
+
+What gets published: name, pin (a Person's rounded to about 1 km), type,
+gaming space, comment, contacts and logo. The address and anything else stay in
+Netlify. Logos are served through `/api/logo`, since Netlify's file links expire.
+A submission with the same country and name as an entry in
+`data/communities.json` shows once, as written in the file, so copying one there
+(to add a region, say) is still possible.
+
+The functions need a Netlify personal access token: create one under **User
+settings → Applications → Personal access tokens**, then add it to the project
+under **Project configuration → Environment variables** as
+`NETLIFY_API_TOKEN` (scope: Functions), and redeploy. Without it the map just
+shows `data/communities.json`.
 
 ## Credits
 

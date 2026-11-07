@@ -7,9 +7,12 @@ import { setupStreetMap } from "./street.js";
 const DEBUG = new URLSearchParams(location.search).has("debug");
 const { width: W, height: H } = MAP_IMAGE;
 
-const [topology, communityData, hitmap, countryMaps] = await Promise.all([
+const [topology, communityData, approved, hitmap, countryMaps] = await Promise.all([
   d3.json("data/countries-50m.json"),
   d3.json("data/communities.json"),
+  // Form submissions approved since the last deploy (netlify/functions). Not
+  // there in a local preview; the map then shows communities.json alone.
+  d3.json("/api/communities").catch(() => ({})),
   loadHitmap(),
   d3.json("data/country-maps/index.json").catch(() => ({})),
 ]);
@@ -22,6 +25,13 @@ const byName = new Map(countries.map((f) => [normalize(f.properties.name), f]));
 const communitiesByCountry = new Map(
   Object.entries(communityData.countries ?? {}).map(([name, list]) => [normalize(name), list])
 );
+// A submission already copied into communities.json (same country and name)
+// shows once, as written there.
+for (const [name, list] of Object.entries(approved?.countries ?? {})) {
+  const known = communitiesByCountry.get(normalize(name)) ?? [];
+  const names = new Set(known.map((c) => normalize(c.name)));
+  communitiesByCountry.set(normalize(name), [...known, ...list.filter((c) => !names.has(normalize(c.name)))]);
+}
 
 for (const name of communitiesByCountry.keys()) {
   if (!byName.has(name)) console.warn(`communities.json: no country on the map is called "${name}"`);
