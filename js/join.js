@@ -4,7 +4,7 @@
 const MAX_LOGO_BYTES = 15 * 1024 * 1024; // the original; what's sent is the small miniature
 const MINIATURE = 256; // px, square: the size community markers are drawn from
 const CONTACTS = ["discord", "email", "whatsapp", "facebook"];
-const MAX_LENGTH = { name: 100, city: 30, discord: 50, email: 50, comment: 200 };
+const MAX_LENGTH = { name: 100, address: 30, discord: 50, email: 50, comment: 200 };
 const LOGO_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
 // An invite link: discord.gg/<code> or discord.com/invite/<code>, with or without https://.
 const DISCORD_INVITE = /^(https?:\/\/)?(www\.)?(discord\.gg|discord(app)?\.com\/invite)\/[a-z0-9-]{2,32}\/?$/i;
@@ -169,14 +169,14 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
 
   function validate() {
     const { elements } = form;
-    for (const key of ["name", "city", "comment", ...CONTACTS]) elements[key].value = elements[key].value.trim();
+    for (const key of ["name", "address", "comment", ...CONTACTS]) elements[key].value = elements[key].value.trim();
     if (!elements.name.value) return showError("Please give a name.", elements.name), false;
     if (!CONTACTS.some((key) => elements[key].value)) {
       return showError("Add at least one way to reach you: Discord, email, WhatsApp or Facebook.", elements.discord), false;
     }
     for (const [key, max] of Object.entries(MAX_LENGTH)) {
       if (elements[key].value.length > max) {
-        const label = { name: "The name", city: "City/Town/Village", comment: "The extra comment", discord: "The Discord link", email: "The email address" }[key];
+        const label = { name: "The name", address: "The address", comment: "The extra comment", discord: "The Discord link", email: "The email address" }[key];
         return showError(`${label} can be at most ${max} characters.`, elements[key]), false;
       }
     }
