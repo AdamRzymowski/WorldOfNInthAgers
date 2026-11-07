@@ -177,6 +177,21 @@ worldSvg
     if (f) openCountry(f);
   });
 
+// "Want to put yourself on the map?": the plus button asks for a country first.
+const joinButton = document.getElementById("join-button");
+const joinHint = document.getElementById("join-hint");
+
+function setJoining(on) {
+  joinButton.setAttribute("aria-pressed", String(on));
+  joinHint.hidden = !on;
+}
+
+joinButton.addEventListener("click", () => setJoining(joinButton.getAttribute("aria-pressed") !== "true"));
+joinHint.querySelector("[data-join-cancel]").addEventListener("click", () => setJoining(false));
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !joinHint.hidden) setJoining(false);
+});
+
 function sealPoint(f) {
   return hitmap.labelPoints[f.properties.name] ?? toMap(f, labelPoint(f));
 }
@@ -356,6 +371,7 @@ function loadMinimap(name) {
 
 async function openCountry(feature) {
   setHover(null);
+  setJoining(false);
   closeCard();
   const list = communitiesFor(feature);
   title.textContent = feature.properties.name;

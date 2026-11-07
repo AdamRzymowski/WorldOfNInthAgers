@@ -7,6 +7,8 @@
   --blood: #8b1a10;
   --blood-dark: #5e0f08;
   --gold: #c8973e;
+  --sea: #1f5fa8;
+  --sea-light: #4a92e0;
   --bg: #1d130b;
   --display: "Cinzel", "Times New Roman", serif;
   --body: "IM Fell English", Georgia, serif;
@@ -132,7 +134,8 @@ button {
   box-shadow: 0 2px 8px rgb(0 0 0 / 0.5);
 }
 
-.t9a-link {
+/* Top-right corner: the Ninth Age emblem with the "put yourself on the map" call below it. */
+.corner {
   position: absolute;
   top: 26px;
   right: calc(16px + 1.2%);
@@ -140,8 +143,17 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 10px;
   width: clamp(72px, 9%, 150px);
+}
+
+.t9a-link {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
   color: var(--parchment-light);
   text-decoration: none;
   transition: transform 0.15s;
@@ -195,6 +207,94 @@ button {
 .t9a-link:hover span,
 .t9a-link:focus-visible span {
   background: var(--blood);
+}
+
+.join-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 112%;
+}
+
+.join-cta p {
+  margin: 0;
+  padding: 5px 8px;
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  background: rgb(20 12 6 / 0.85);
+  color: var(--parchment-light);
+  font-family: var(--display);
+  font-size: clamp(9px, 0.85vw, 12px);
+  line-height: 1.3;
+  text-align: center;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.5);
+}
+
+.join-button {
+  display: grid;
+  place-items: center;
+  width: clamp(34px, 3.2vw, 46px);
+  height: clamp(34px, 3.2vw, 46px);
+  padding: 0 0 3px;
+  border: 2px solid var(--parchment-light);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--sea-light), var(--sea) 70%);
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  font-size: clamp(24px, 2.3vw, 34px);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 0 0 2px rgb(20 12 6 / 0.7), 0 3px 10px rgb(0 0 0 / 0.6);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.join-button:hover,
+.join-button:focus-visible {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 2px rgb(20 12 6 / 0.7), 0 0 14px var(--sea-light);
+}
+
+.join-button[aria-pressed="true"] {
+  transform: rotate(45deg); /* turns into an × to cancel */
+}
+
+/* While choosing a country to join, a banner on the map says what to do. */
+.join-hint {
+  position: absolute;
+  top: 17%;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px 6px 16px;
+  border: 2px solid var(--parchment-light);
+  border-radius: 999px;
+  background: var(--sea);
+  color: #fff;
+  font-family: var(--display);
+  font-size: clamp(13px, 1.3vw, 17px);
+  white-space: nowrap;
+  transform: translateX(-50%);
+  box-shadow: 0 3px 12px rgb(0 0 0 / 0.6);
+}
+
+.join-hint[hidden] {
+  display: none;
+}
+
+.join-hint button {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.2);
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
 }
 
 .map-controls {
@@ -671,13 +771,30 @@ a.link:focus-visible {
     margin-right: 40px;
   }
 
-  .t9a-link {
+  .corner {
     position: static;
-    flex-direction: row;
-    justify-content: flex-end;
+    align-items: stretch;
     gap: 8px;
     width: auto;
     margin-bottom: 8px;
+  }
+
+  .t9a-link {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .join-cta {
+    flex-direction: row;
+    justify-content: flex-end;
+    width: auto;
+    gap: 8px;
+  }
+
+  .join-cta p {
+    font-size: 11px;
+    text-align: left;
   }
 
   .t9a-link::before {
