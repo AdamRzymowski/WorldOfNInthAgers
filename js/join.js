@@ -137,9 +137,12 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
   }
 
   formDialog.addEventListener("close", removePlanted);
+  // Only the ×, Cancel and "Back to the map" close the form, so a stray
+  // click outside it or Escape doesn't lose what was typed.
   formDialog.addEventListener("click", (event) => {
-    if (event.target === formDialog || event.target.closest("[data-join-close]")) closeForm();
+    if (event.target.closest("[data-join-close]")) closeForm();
   });
+  formDialog.addEventListener("cancel", (event) => event.preventDefault());
 
   let miniature = null; // the logo as sent: a small square image made from the upload
 

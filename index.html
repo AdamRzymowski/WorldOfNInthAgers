@@ -98,7 +98,7 @@
   </dialog>
 
   <!-- Submissions go to Netlify Forms (the form must be in the HTML for Netlify to find it). -->
-  <dialog id="join-dialog" class="join-dialog" aria-labelledby="join-title">
+  <dialog id="join-dialog" class="join-dialog" aria-labelledby="join-title" closedby="none">
     <form class="parchment join-form" id="join-form" name="community-submission" method="POST"
           data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" novalidate>
       <input type="hidden" name="form-name" value="community-submission">
@@ -108,12 +108,15 @@
       <p class="visually-hidden"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 
       <header class="join-header">
-        <h2 id="join-title" class="ribbon">Plant your banner</h2>
+        <h2 id="join-title" class="ribbon">What does your banner include?</h2>
         <button type="button" class="close" data-join-close aria-label="Close">&times;</button>
       </header>
 
       <div class="join-submit-row">
-        <button type="submit" class="primary plant-submit" id="join-submit">Ready! Plant my Banner!</button>
+        <div class="join-submit-buttons">
+          <button type="submit" class="primary plant-submit" id="join-submit">Ready! Plant my Banner!</button>
+          <button type="button" class="secondary cancel-button" data-join-close>Cancel</button>
+        </div>
         <p class="join-error" id="join-error" role="alert" hidden></p>
       </div>
 

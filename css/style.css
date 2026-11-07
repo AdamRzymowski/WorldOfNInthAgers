@@ -1155,7 +1155,7 @@ a.link:focus-visible {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 30px 12px;
+  margin: 0 52px 12px;
 }
 
 .join-header .ribbon {
@@ -1165,8 +1165,22 @@ a.link:focus-visible {
 
 .join-header .close {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--gold);
+  background: linear-gradient(var(--blood), var(--blood-dark));
+  color: var(--parchment-light);
+  font-size: 34px;
+  box-shadow: 0 0 0 2px rgb(20 12 6 / 0.6), 0 4px 12px rgb(0 0 0 / 0.5);
+  transition: transform 0.15s;
+}
+
+.join-header .close:hover,
+.join-header .close:focus-visible {
+  transform: scale(1.08);
 }
 
 /* The send button sits right under the title, with any problem shown under it. */
@@ -1184,6 +1198,21 @@ a.link:focus-visible {
   font-size: 18px;
   font-weight: 700;
   box-shadow: 0 0 0 2px rgb(20 12 6 / 0.6), 0 4px 12px rgb(0 0 0 / 0.4);
+}
+
+.join-submit-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.join-form .join-submit-row .cancel-button {
+  padding: 10px 20px;
+  border: 2px solid var(--ink-soft);
+  border-radius: 999px;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .join-submit-row .join-error {
@@ -1540,6 +1569,15 @@ a.link:focus-visible {
   .ribbon {
     padding: 4px 20px;
     margin: 0 52px 0 0;
+  }
+
+  /* The title takes the width left of the ×. */
+  .join-header {
+    margin: 0 0 12px;
+  }
+
+  .join-header .ribbon {
+    padding: 4px 16px;
   }
 
   .back-button,
