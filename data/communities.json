@@ -1,6 +1,18 @@
 {
   "_readme": "Keys under \"countries\" must match the country name shown in the map tooltip. Each community needs a name and lat/lon; everything else is optional. See README.md.",
   "countries": {
+    "France": [
+      {
+        "name": "Gyem",
+        "lat": 48.79,
+        "lon": 2.32,
+        "type": "Person",
+        "gamingSpace": true,
+        "region": "Cachan",
+        "forumUsername": "Gyem",
+        "discordUsername": "Gyem"
+      }
+    ],
     "Poland": [
       {
         "name": "Gargulec",
