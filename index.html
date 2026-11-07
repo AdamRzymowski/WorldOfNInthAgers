@@ -57,7 +57,7 @@
         <button type="button" class="close" data-close aria-label="Close">&times;</button>
       </header>
       <div class="view-switch">
-        <button type="button" class="back-button" data-close>Back to the world map</button>
+        <button type="button" class="back-button" data-close>Go back to the World Map to select other countries</button>
         <button type="button" class="view-toggle" id="view-toggle" aria-pressed="false">Real World View</button>
       </div>
       <div class="country-body">
@@ -92,6 +92,10 @@
             No communities charted here yet.
             <a href="https://discord.com/users/273431876390092800" target="_blank" rel="noopener" title="Message us on Discord">Know one? Tell us.</a>
           </p>
+          <div id="people-section" hidden>
+            <h3>People</h3>
+            <ul id="people-list" class="community-list"></ul>
+          </div>
         </aside>
       </div>
     </div>

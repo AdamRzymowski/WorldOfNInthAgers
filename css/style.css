@@ -735,6 +735,10 @@ a.link:focus-visible {
 
 /* --------------------------------------------------------- side list */
 
+#people-section {
+  margin-top: 18px;
+}
+
 .country-aside h3 {
   margin: 0 0 8px;
   padding-bottom: 6px;

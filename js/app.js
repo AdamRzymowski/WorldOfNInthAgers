@@ -341,6 +341,8 @@ const dialog = document.getElementById("country-dialog");
 const title = document.getElementById("country-title");
 const listEl = document.getElementById("community-list");
 const emptyEl = document.getElementById("community-empty");
+const peopleSection = document.getElementById("people-section");
+const peopleListEl = document.getElementById("people-list");
 const card = document.getElementById("community-card");
 const countrySvg = d3.select("#country-map").attr("viewBox", `0 0 ${CW} ${CH}`);
 const mapWrap = document.querySelector(".country-map-wrap");
@@ -605,9 +607,18 @@ function layoutMarkers() {
   if (!card.hidden && cardNode) positionCard(cardNode);
 }
 
+// Clubs and stores under "Communities", individual players under "People".
 function renderList(list) {
-  listEl.replaceChildren();
-  emptyEl.hidden = list.length > 0;
+  const people = list.filter((c) => c.type === "Person");
+  const communities = list.filter((c) => c.type !== "Person");
+  fillList(listEl, communities);
+  emptyEl.hidden = communities.length > 0;
+  fillList(peopleListEl, people);
+  peopleSection.hidden = people.length === 0;
+}
+
+function fillList(ul, list) {
+  ul.replaceChildren();
   list.forEach((community) => {
     const li = document.createElement("li");
     const button = document.createElement("button");
@@ -628,7 +639,7 @@ function renderList(list) {
       openCard(node ?? { community });
     });
     li.append(button);
-    listEl.append(li);
+    ul.append(li);
   });
 }
 
