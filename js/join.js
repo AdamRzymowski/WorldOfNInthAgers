@@ -4,8 +4,8 @@
 const MAX_LOGO_BYTES = 15 * 1024 * 1024; // the original; what's sent is the small miniature
 const MINIATURE = 256; // px, square: the size community markers are drawn from
 // Everything in "How can people reach you?": at least one is needed.
-const CONTACTS = ["discord", "email", "whatsapp", "facebook", "website", "forum_username", "discord_username"];
-const MAX_LENGTH = { name: 100, address: 100, discord: 50, email: 50, forum_username: 50, discord_username: 38, website: 200, comment: 200 };
+const CONTACTS = ["discord", "whatsapp", "facebook", "website", "forum_username", "discord_username"];
+const MAX_LENGTH = { name: 100, address: 100, discord: 50, forum_username: 50, discord_username: 38, website: 200, comment: 200 };
 const LOGO_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
 // An invite link: discord.gg/<code> or discord.com/invite/<code>, with or without https://.
 // 2–32 of letters, digits, _ and . (Discord's own rule), with an optional
@@ -232,7 +232,7 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
     }
     for (const [key, max] of Object.entries(MAX_LENGTH)) {
       if (elements[key].value.length > max) {
-        const label = { name: "The name", address: "The address", forum_username: "The T9A forum username", discord_username: "The Discord username", website: "The website", comment: "The extra comment", discord: "The Discord link", email: "The email address" }[key];
+        const label = { name: "The name", address: "The address", forum_username: "The T9A forum username", discord_username: "The Discord username", website: "The website", comment: "The extra comment", discord: "The Discord link" }[key];
         return showError(`${label} can be at most ${max} characters.`, elements[key]), false;
       }
     }
@@ -241,9 +241,6 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
     }
     if (elements.discord_username.value && !DISCORD_USERNAME.test(elements.discord_username.value)) {
       return showError("A Discord username has only letters, numbers, _ and . (like klub_gargulec).", elements.discord_username), false;
-    }
-    if (elements.email.value && !isEmail(elements.email.value)) {
-      return showError("That email address doesn't look right.", elements.email), false;
     }
     if (elements.website.value) {
       const url = webUrl(elements.website.value);
@@ -307,11 +304,6 @@ async function makeMiniature(file) {
 
 function slug(text) {
   return text.toLowerCase().normalize("NFKD").replace(/[^\w]+/g, "-").replace(/^-|-$/g, "") || "community";
-}
-
-// name@domain.tld, stricter than the browser's own check (which accepts "a@b").
-function isEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@.]{2,}$/.test(value);
 }
 
 // The address as a full http(s) link, adding https:// when it was left off,

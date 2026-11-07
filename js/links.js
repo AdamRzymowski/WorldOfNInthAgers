@@ -20,11 +20,6 @@ const TYPES = {
     color: "#7a4a1c",
     icon: glyph('<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>'),
   },
-  email: {
-    label: "Email",
-    color: "#7a4a1c",
-    icon: glyph('<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/>'),
-  },
   contact: {
     label: "Contact",
     color: "#7a4a1c",
@@ -41,14 +36,14 @@ export function linkInfo(type) {
   return TYPES[String(type).toLowerCase()] ?? TYPES.link;
 }
 
-// Only ever link to web pages or email, never javascript: or other schemes.
-export function safeUrl(link, info) {
-  let raw = link.url;
-  if (!raw && info === TYPES.email && link.label?.includes("@")) raw = `mailto:${link.label}`;
+// Only ever link to web pages, never mailto:, javascript: or other schemes:
+// the site doesn't publish email addresses.
+export function safeUrl(link) {
+  const raw = link.url;
   if (!raw) return null;
   try {
     const url = new URL(raw, location.href);
-    return ["http:", "https:", "mailto:"].includes(url.protocol) ? url.href : null;
+    return ["http:", "https:"].includes(url.protocol) ? url.href : null;
   } catch {
     return null;
   }

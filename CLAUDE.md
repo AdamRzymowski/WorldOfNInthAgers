@@ -39,7 +39,7 @@ When the user says this:
    - the names match ignoring case, accents, spaces and punctuation, or are
      nearly the same (one contains the other, or a typo or two apart);
    - they are in the same country within about 25 km of each other;
-   - they share a contact (the same Discord invite, email, WhatsApp or
+   - they share a contact (the same Discord invite, WhatsApp or
      Facebook link).
 3. Add every pending submission that has no flag, without asking again.
 4. Don't add flagged ones. List each with what it resembles and why (for
@@ -62,7 +62,7 @@ Put it under its country in `data/communities.json` with:
 - `description` from its extra comment, if given and it reads as one
   (otherwise just show the comment to the user);
 - `forumUsername` and `discordUsername`, if given;
-- a link per contact (`discord`, `email`, `whatsapp`, `facebook`) and
+- a link per contact (`discord`, `whatsapp`, `facebook`) and
   `website` for its website; a value that isn't a link becomes a label with
   no `url`;
 - `logo`, if it sent one: download it into `assets/logos/<slug>.webp`.

@@ -661,7 +661,7 @@ function openCard(node) {
     heading.append(p);
   }
   // The logo doubles as a button to the community's main link.
-  const mainLink = (c.links ?? []).map((link) => safeUrl(link, linkInfo(link.type))).find(Boolean);
+  const mainLink = (c.links ?? []).map((link) => safeUrl(link)).find(Boolean);
   const logo = logoElement(c, "card-logo");
   if (mainLink) {
     const a = document.createElement("a");
@@ -743,7 +743,7 @@ function closeCard() {
 function linkItem(link) {
   const info = linkInfo(link.type);
   const li = document.createElement("li");
-  const url = safeUrl(link, info);
+  const url = safeUrl(link);
   const row = document.createElement(url ? "a" : "div");
   row.className = "link";
   row.style.setProperty("--brand", info.color);
