@@ -52,12 +52,14 @@
         <h2 id="country-title" class="ribbon"></h2>
         <button type="button" class="close" data-close aria-label="Close">&times;</button>
       </header>
+      <div class="view-switch">
+        <button type="button" class="view-toggle" id="view-toggle" aria-pressed="false">Real World View</button>
+      </div>
       <div class="country-body">
         <div class="country-map-wrap">
           <svg id="country-map" class="country-map" role="img"></svg>
           <div id="street-map" class="street-map" hidden></div>
           <div class="map-toolbar">
-            <button type="button" class="view-toggle" id="view-toggle" aria-pressed="false">Real World View</button>
             <form class="street-search" id="street-search" role="search" hidden>
               <input type="search" placeholder="Find a town or address" aria-label="Find a town or address" autocomplete="street-address">
               <button type="submit">Find</button>

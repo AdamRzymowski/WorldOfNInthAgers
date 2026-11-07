@@ -807,7 +807,13 @@ a.link:focus-visible {
   background: var(--blood);
 }
 
-/* The big switch between the painting and the real map. */
+/* The big switch between the painting and the real map, under the country name. */
+.view-switch {
+  display: flex;
+  justify-content: center;
+  margin: -4px 0 12px;
+}
+
 .view-toggle {
   display: inline-flex;
   align-items: center;
