@@ -100,18 +100,18 @@
 
         <label class="field">
           <span>Name <em>(required)</em></span>
-          <input name="name" required maxlength="80" autocomplete="organization" placeholder="e.g. Klub Gargulec">
+          <input name="name" required maxlength="100" autocomplete="organization" placeholder="e.g. Klub Gargulec">
         </label>
 
         <fieldset class="contacts" id="join-contacts">
           <legend>How can people reach you? <em>(at least one)</em></legend>
           <label class="field contact" style="--brand: #5865f2">
             <span>Discord server</span>
-            <input name="discord" maxlength="300" placeholder="https://discord.gg/…">
+            <input name="discord" maxlength="50" placeholder="https://discord.gg/…">
           </label>
           <label class="field contact" style="--brand: #8b1a10">
             <span>Email</span>
-            <input name="email" type="email" maxlength="200" placeholder="name@example.com">
+            <input name="email" type="email" maxlength="50" placeholder="name@example.com">
           </label>
           <label class="field contact" style="--brand: #25d366">
             <span>WhatsApp group</span>
@@ -119,15 +119,15 @@
           </label>
           <label class="field contact" style="--brand: #0866ff">
             <span>Facebook</span>
-            <input name="facebook" maxlength="300" placeholder="https://www.facebook.com/…">
+            <input name="facebook" type="url" maxlength="300" placeholder="https://www.facebook.com/…">
           </label>
         </fieldset>
 
         <div class="field logo-field">
-          <span>Logo <em>(optional — any image, we'll shrink it to a miniature; without one you'll fly the Ninth Age banner)</em></span>
+          <span>Logo <em>(optional — PNG, JPEG, WebP or GIF, we'll shrink it to a miniature; without one you'll fly the Ninth Age banner)</em></span>
           <div class="logo-pick">
             <span class="logo-preview" id="join-logo-preview" aria-hidden="true">+</span>
-            <input type="file" name="logo" id="join-logo" accept="image/png,image/jpeg,image/webp,image/gif">
+            <input type="file" name="logo" id="join-logo" accept=".png,.jpg,.jpeg,.webp,.gif,image/png,image/jpeg,image/webp,image/gif">
           </div>
         </div>
 

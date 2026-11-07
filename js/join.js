@@ -4,6 +4,10 @@
 const MAX_LOGO_BYTES = 15 * 1024 * 1024; // the original; what's sent is the small miniature
 const MINIATURE = 256; // px, square: the size community markers are drawn from
 const CONTACTS = ["discord", "email", "whatsapp", "facebook"];
+const MAX_LENGTH = { name: 100, discord: 50, email: 50 };
+const LOGO_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
+// An invite link: discord.gg/<code> or discord.com/invite/<code>, with or without https://.
+const DISCORD_INVITE = /^(https?:\/\/)?(www\.)?(discord\.gg|discord(app)?\.com\/invite)\/[a-z0-9-]{2,32}\/?$/i;
 
 // countrySvg/mapLayer: the country view's d3 selections. getCurrent() returns
 // the open country: { feature, fromMap(x, y) -> [lon, lat], contains(x, y) },
@@ -137,8 +141,8 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
     logoInput.setCustomValidity("");
     errorEl.hidden = true;
     if (!file) return;
-    if (!file.type.startsWith("image/")) {
-      logoInput.setCustomValidity("Please choose an image file.");
+    if (!LOGO_TYPES.includes(file.type)) {
+      logoInput.setCustomValidity("The logo must be a PNG, JPEG, WebP or GIF image.");
     } else if (file.size > MAX_LOGO_BYTES) {
       logoInput.setCustomValidity("That image is too large (15 MB at most).");
     } else {
@@ -170,8 +174,22 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
     if (!CONTACTS.some((key) => elements[key].value)) {
       return showError("Add at least one way to reach you: Discord, email, WhatsApp or Facebook.", elements.discord), false;
     }
-    if (elements.email.value && !elements.email.checkValidity()) {
+    for (const [key, max] of Object.entries(MAX_LENGTH)) {
+      if (elements[key].value.length > max) {
+        const label = { name: "The name", discord: "The Discord link", email: "The email address" }[key];
+        return showError(`${label} can be at most ${max} characters.`, elements[key]), false;
+      }
+    }
+    if (elements.discord.value && !DISCORD_INVITE.test(elements.discord.value)) {
+      return showError("The Discord link should be an invite, like https://discord.gg/abc123.", elements.discord), false;
+    }
+    if (elements.email.value && !isEmail(elements.email.value)) {
       return showError("That email address doesn't look right.", elements.email), false;
+    }
+    if (elements.facebook.value) {
+      const url = webUrl(elements.facebook.value);
+      if (!url) return showError("Facebook should be a link, like https://www.facebook.com/yourgroup.", elements.facebook), false;
+      elements.facebook.value = url;
     }
     if (!logoInput.checkValidity()) return showError(logoInput.validationMessage, logoInput), false;
     errorEl.hidden = true;
@@ -225,6 +243,22 @@ async function makeMiniature(file) {
 
 function slug(text) {
   return text.toLowerCase().normalize("NFKD").replace(/[^\w]+/g, "-").replace(/^-|-$/g, "") || "community";
+}
+
+// name@domain.tld, stricter than the browser's own check (which accepts "a@b").
+function isEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@.]{2,}$/.test(value);
+}
+
+// The address as a full http(s) link, adding https:// when it was left off,
+// or null when it isn't a web address.
+function webUrl(value) {
+  try {
+    const url = new URL(/^[a-z][a-z0-9+.-]*:/i.test(value) ? value : `https://${value}`);
+    return /^https?:$/.test(url.protocol) && /\.[a-z]{2,}$/i.test(url.hostname) ? url.href : null;
+  } catch {
+    return null;
+  }
 }
 
 function formatCoord(value, positive, negative) {

@@ -66,9 +66,6 @@ Each link has a `type`, a `label`, and optionally a `url`. A link without a
 `whatsapp`, `telegram`, `instagram`, `youtube`, `website`, `email`,
 `contact`, `link`. New types can be added in [`js/links.js`](js/links.js).
 
-The entries currently in `communities.json` are placeholders marked
-"example" — replace them with real communities.
-
 ## How the map lines up
 
 The artwork is hand-drawn, so its coastlines and borders don't follow real

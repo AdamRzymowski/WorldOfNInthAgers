@@ -22,23 +22,6 @@
         "region": "Gdańsk",
         "logo": "assets/logos/gargulec.webp"
       }
-    ],
-    "United Kingdom": [
-      {
-        "name": "Example London League",
-        "shortName": "London (example)",
-        "region": "England",
-        "lat": 51.51,
-        "lon": -0.13,
-        "description": "Placeholder entry.",
-        "links": [
-          {
-            "type": "whatsapp",
-            "label": "Group chat",
-            "url": "https://chat.whatsapp.com/example"
-          }
-        ]
-      }
     ]
   }
 }
