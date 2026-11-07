@@ -1028,10 +1028,16 @@ a.link:focus-visible {
 }
 
 .planting .country-map,
-.planting .badge,
 .planting .street-map,
 .planting .street-map .leaflet-interactive {
   cursor: none;
+}
+
+/* While planting, existing communities don't catch the click: it plants on
+   the map under them instead of opening their card. */
+.planting .marker,
+.planting .street-marker {
+  pointer-events: none;
 }
 
 /* Touch screens have no pointer to follow: keep the normal cursor and rely on the hint. */
