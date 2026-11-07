@@ -18,6 +18,7 @@
         "name": "Gargulec",
         "lat": 54.35,
         "lon": 18.65,
+        "type": "Club/Community",
         "links": [
           {
             "type": "discord",
@@ -47,10 +48,11 @@
       },
       {
         "name": "Rzymek",
-        "lat": 53.77,
-        "lon": 18.88,
+        "lat": 54.32,
+        "lon": 18.35,
         "type": "Person",
         "gamingSpace": true,
+        "region": "Glincz",
         "discordUsername": "Rzymek",
         "links": [
           {
