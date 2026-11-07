@@ -1094,10 +1094,25 @@ a.link:focus-visible {
   right: 14px;
 }
 
-.join-where {
-  margin: 0 0 12px;
-  font-style: italic;
-  text-align: center;
+/* The send button sits right under the title, with any problem shown under it. */
+.join-submit-row {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.join-form .join-submit-row .plant-submit {
+  padding: 10px 22px;
+  border: 2px solid var(--parchment-light);
+  border-radius: 999px;
+  font-size: 18px;
+  font-weight: 700;
+  box-shadow: 0 0 0 2px rgb(20 12 6 / 0.6), 0 4px 12px rgb(0 0 0 / 0.4);
+}
+
+.join-submit-row .join-error {
+  justify-self: stretch;
 }
 
 /* minmax(0, 1fr) and min-width: 0 let inputs shrink to narrow phones
@@ -1151,8 +1166,8 @@ a.link:focus-visible {
 
 /* Yes / No side by side under their question. */
 .join-form .choice {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
   gap: 6px 22px;
   margin: 0;
   padding: 0;
@@ -1248,6 +1263,47 @@ a.link:focus-visible {
   color: var(--blood-dark);
 }
 
+/* A required section left empty: red outline and a note under it. */
+.join-form .missing input:not([type="radio"]),
+.join-form .missing select {
+  border-color: var(--blood);
+  box-shadow: 0 0 0 2px rgb(139 26 16 / 0.25);
+}
+
+.join-form fieldset.missing.contacts {
+  border-color: var(--blood);
+}
+
+.required-note {
+  position: relative;
+  width: fit-content;
+  margin: 6px 0 0;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: var(--blood);
+  color: #fff;
+  font-family: var(--display);
+  font-size: 13px;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.3);
+  animation: unfurl 0.15s ease-out;
+}
+
+/* A little arrow pointing up at the section. */
+.required-note::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 14px;
+  border: 5px solid transparent;
+  border-top: 0;
+  border-bottom-color: var(--blood);
+}
+
+/* Under the Yes / No row, not beside it. */
+.choice .required-note {
+  grid-column: 1 / -1;
+}
+
 .join-actions {
   display: flex;
   justify-content: flex-end;
@@ -1285,6 +1341,7 @@ a.link:focus-visible {
 
 /* After sending, only the thank-you note shows. */
 .join-form.sent .join-fields,
+.join-form.sent .join-submit-row,
 .join-form.sent .join-actions {
   display: none;
 }

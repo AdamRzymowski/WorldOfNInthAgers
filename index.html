@@ -107,9 +107,12 @@
         <button type="button" class="close" data-join-close aria-label="Close">&times;</button>
       </header>
 
-      <div class="join-fields">
-        <p class="join-where" id="join-where"></p>
+      <div class="join-submit-row">
+        <button type="submit" class="primary plant-submit" id="join-submit">Ready! Plant my Banner!</button>
+        <p class="join-error" id="join-error" role="alert" hidden></p>
+      </div>
 
+      <div class="join-fields">
         <label class="field">
           <span>Name <em>(required)</em></span>
           <input name="name" required maxlength="100" autocomplete="organization" placeholder="e.g. Klub Gargulec">
@@ -183,13 +186,10 @@
             <input type="file" name="logo" id="join-logo" accept=".png,.jpg,.jpeg,.webp,.gif,image/png,image/jpeg,image/webp,image/gif">
           </div>
         </div>
-
-        <p class="join-error" id="join-error" role="alert" hidden></p>
       </div>
 
       <div class="join-actions">
         <button type="button" class="secondary" data-join-close>Cancel</button>
-        <button type="submit" class="primary" id="join-submit">Plant banner</button>
       </div>
 
       <div class="join-done" id="join-done" hidden>

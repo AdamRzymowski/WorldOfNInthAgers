@@ -21,7 +21,6 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
   const cursor = document.getElementById("banner-cursor");
   const formDialog = document.getElementById("join-dialog");
   const form = document.getElementById("join-form");
-  const where = document.getElementById("join-where");
   const errorEl = document.getElementById("join-error");
   const done = document.getElementById("join-done");
   const submit = document.getElementById("join-submit");
@@ -119,16 +118,15 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
 
   function openForm(current, [lon, lat]) {
     form.reset();
+    clearRequired();
     resetLogo();
     errorEl.hidden = true;
     done.hidden = true;
     form.classList.remove("sent");
     submit.disabled = false;
-    const country = current.feature.properties.name;
-    form.elements.country.value = country;
+    form.elements.country.value = current.feature.properties.name;
     form.elements.latitude.value = lat.toFixed(4);
     form.elements.longitude.value = lon.toFixed(4);
-    where.textContent = `In ${country}, at ${formatCoord(lat, "N", "S")}, ${formatCoord(lon, "E", "W")}`;
     formDialog.showModal();
     form.elements.name.focus();
   }
@@ -176,6 +174,33 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
     logoPreview.classList.add("has-image");
   });
 
+  // The labelled block a field belongs to: its label, or the whole fieldset
+  // for the contacts and the Yes/No choice.
+  function sectionOf(field) {
+    return field.closest("fieldset") ?? field.closest(".field");
+  }
+
+  function markRequired(section) {
+    section.classList.add("missing");
+    const note = document.createElement("p");
+    note.className = "required-note";
+    note.textContent = "This section is required";
+    section.append(note);
+  }
+
+  function clearRequired(section) {
+    for (const el of section ? [section] : form.querySelectorAll(".missing")) {
+      el.classList.remove("missing");
+      el.querySelector(".required-note")?.remove();
+    }
+  }
+
+  // Filling in a marked section clears its note straight away.
+  form.addEventListener("input", (event) => {
+    const section = event.target.closest(".missing");
+    if (section) clearRequired(section);
+  });
+
   function showError(message, field) {
     errorEl.textContent = message;
     errorEl.hidden = false;
@@ -185,13 +210,17 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
   function validate() {
     const { elements } = form;
     for (const key of ["name", "address", "forum_username", "discord_username", "website", "comment", ...CONTACTS]) elements[key].value = elements[key].value.trim();
-    if (!elements.name.value) return showError("Please give a name.", elements.name), false;
-    if (!elements.type.value) return showError("Choose a type: Club/Community, Store or Person.", elements.type), false;
-    if (!elements.gaming_space.value) {
-      return showError("Say whether there's a gaming space.", elements.gaming_space[0]), false;
-    }
-    if (!CONTACTS.some((key) => elements[key].value)) {
-      return showError("Add at least one way to reach you: Discord, email, WhatsApp or Facebook.", elements.discord), false;
+    // Every required section left empty gets its own red note at once.
+    const missing = [
+      [!elements.name.value, elements.name],
+      [!elements.type.value, elements.type],
+      [!elements.gaming_space.value, elements.gaming_space[0]],
+      [!CONTACTS.some((key) => elements[key].value), elements.discord],
+    ].filter(([empty]) => empty).map(([, field]) => field);
+    clearRequired();
+    for (const field of missing) markRequired(sectionOf(field));
+    if (missing.length) {
+      return showError("Some required sections are empty: they're marked in red below.", missing[0]), false;
     }
     for (const [key, max] of Object.entries(MAX_LENGTH)) {
       if (elements[key].value.length > max) {
@@ -242,7 +271,7 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
       showError("Sorry, that didn't go through. Please try again in a moment.");
       submit.disabled = false;
     } finally {
-      submit.textContent = "Plant banner";
+      submit.textContent = "Ready! Plant my Banner!";
     }
   });
 
@@ -286,8 +315,4 @@ function webUrl(value) {
   } catch {
     return null;
   }
-}
-
-function formatCoord(value, positive, negative) {
-  return `${Math.abs(value).toFixed(2)}° ${value >= 0 ? positive : negative}`;
 }
