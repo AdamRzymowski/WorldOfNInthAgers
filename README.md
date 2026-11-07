@@ -177,6 +177,11 @@ asks for a name, a type (Club/Community, Store or Person), whether there is a ga
 optional logo (shrunk in the browser to a 256 px square miniature before sending;
 without one, the community gets the Ninth Age banner). The code is in [`js/join.js`](js/join.js).
 
+A **Street map** button under the map swaps the painting for a real
+OpenStreetMap view of the country ([`js/street.js`](js/street.js), free, no
+key): people can search their town or address and plant on the exact spot.
+The address they type goes only to you; the site shows just the banner.
+
 The form is a [Netlify Form](https://docs.netlify.com/forms/setup/) named
 `community-submission`: entries, with the planted latitude/longitude and the
 logo file, show up under **Forms** in the Netlify dashboard (turn on form

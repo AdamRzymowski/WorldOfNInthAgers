@@ -53,9 +53,12 @@ When the user says this:
 
 Put it under its country in `data/communities.json` with:
 
-- `name`, `lat`, `lon`;
+- `name`, `lat`, `lon`. For a **Person**, round `lat`/`lon` to 2 decimals
+  (about 1 km) so the pin doesn't point at their home; clubs and stores keep
+  the exact spot;
 - `type` and `gamingSpace` (`true`/`false`);
-- `region` from its address, if given;
+- `region`: only the town or city, taken from the address. Never publish the
+  street address itself; it stays in Netlify;
 - `description` from its extra comment, if given and it reads as one
   (otherwise just show the comment to the user);
 - `forumUsername` and `discordUsername`, if given;

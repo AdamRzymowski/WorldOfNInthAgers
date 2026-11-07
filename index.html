@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -54,6 +55,15 @@
       <div class="country-body">
         <div class="country-map-wrap">
           <svg id="country-map" class="country-map" role="img"></svg>
+          <div id="street-map" class="street-map" hidden></div>
+          <div class="map-toolbar">
+            <button type="button" class="view-toggle" id="view-toggle" aria-pressed="false">Street map</button>
+            <form class="street-search" id="street-search" role="search" hidden>
+              <input type="search" placeholder="Find a town or address" aria-label="Find a town or address" autocomplete="street-address">
+              <button type="submit">Find</button>
+              <p class="street-status" id="street-status" role="status"></p>
+            </form>
+          </div>
           <div id="community-card" class="community-card" role="dialog" aria-modal="false" hidden></div>
           <div class="plant-hint" id="plant-hint" role="status" hidden>
             <span>Plant your banner on the map!</span>
@@ -120,7 +130,7 @@
         </fieldset>
 
         <label class="field">
-          <span>Address <em>(optional)</em></span>
+          <span>Address <em>(optional, never shown on the map: only the banner is)</em></span>
           <input name="address" maxlength="30" autocomplete="street-address" placeholder="e.g. Długa 12, Gdańsk">
         </label>
 
@@ -191,6 +201,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script type="module" src="js/app.js"></script>
 </body>
 </html>

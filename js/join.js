@@ -55,8 +55,9 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
   addButton.addEventListener("click", () => (planting ? stop() : start()));
   hint.querySelector("[data-plant-cancel]").addEventListener("click", stop);
 
-  // The waving banner follows the pointer in place of the cursor.
-  countrySvg
+  // The waving banner follows the pointer in place of the cursor, over the
+  // painted map and the street map alike.
+  d3.select(mapWrap)
     .on("pointermove.join", (event) => {
       if (!planting || event.pointerType === "touch") return;
       const box = mapWrap.getBoundingClientRect();
@@ -64,19 +65,20 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
       cursor.style.left = `${event.clientX - box.left}px`;
       cursor.style.top = `${event.clientY - box.top}px`;
     })
-    .on("pointerleave.join", () => (cursor.hidden = true))
-    .on("click.join", (event) => {
-      if (!planting) return;
-      const current = getCurrent();
-      const [x, y] = d3.pointer(event, mapLayer.node());
-      if (!current.contains(x, y)) {
-        flashHint(`Plant it inside ${current.feature.properties.name}`);
-        return;
-      }
-      stop();
-      plantAt(x, y);
-      openForm(current, current.fromMap(x, y));
-    });
+    .on("pointerleave.join", () => (cursor.hidden = true));
+
+  countrySvg.on("click.join", (event) => {
+    if (!planting) return;
+    const current = getCurrent();
+    const [x, y] = d3.pointer(event, mapLayer.node());
+    if (!current.contains(x, y)) {
+      flashHint(`Plant it inside ${current.feature.properties.name}`);
+      return;
+    }
+    stop();
+    plantAt(x, y);
+    openForm(current, current.fromMap(x, y));
+  });
 
   function flashHint(text) {
     const label = hint.querySelector("span");
@@ -104,6 +106,16 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
   }
 
   /* ----------------------------------------------------------------- form */
+
+  // A banner planted on another view (the street map): `banner` is whatever
+  // marks the spot there, removed again when the form closes.
+  function place(banner, lonLat, { address } = {}) {
+    stop();
+    removePlanted();
+    planted = banner;
+    openForm(getCurrent(), lonLat);
+    if (address && address.length <= form.elements.address.maxLength) form.elements.address.value = address;
+  }
 
   function openForm(current, [lon, lat]) {
     form.reset();
@@ -234,7 +246,7 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
     }
   });
 
-  return { start, stop, isPlanting: () => planting, reset: () => (stop(), removePlanted()) };
+  return { start, stop, place, isPlanting: () => planting, reset: () => (stop(), removePlanted()) };
 }
 
 // Scales the logo to fit a MINIATURE-pixel square (transparent around it, so

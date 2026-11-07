@@ -2,6 +2,7 @@ import { MAP_IMAGE, LANDMARKS, toImage, wrapLongitude, spansDateline, fitSpline 
 import { linkInfo, safeUrl } from "./links.js";
 import { loadHitmap } from "./hitmap.js";
 import { setupJoin } from "./join.js";
+import { setupStreetMap } from "./street.js";
 
 const DEBUG = new URLSearchParams(location.search).has("debug");
 const { width: W, height: H } = MAP_IMAGE;
@@ -362,6 +363,14 @@ const countryZoom = d3
 countrySvg.call(countryZoom);
 
 const join = setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent: () => current, getCanvasWidth: () => CW });
+const street = setupStreetMap({
+  mapWrap,
+  join,
+  getCurrent: () => current,
+  getBounds: () => d3.geoBounds(mainland(current.feature)),
+  showCommunity: (community) => openCard({ community }),
+  logoOf,
+});
 
 function setCanvas(width, height) {
   CW = width;
@@ -397,6 +406,7 @@ async function openCountry(feature) {
   const plantNow = joinButton.getAttribute("aria-pressed") === "true";
   setJoining(false);
   join.reset();
+  street.reset();
   closeCard();
   const list = communitiesFor(feature);
   title.textContent = feature.properties.name;
@@ -820,6 +830,7 @@ dialog.addEventListener("cancel", (event) => {
 dialog.addEventListener("close", () => {
   closeCard();
   join.reset();
+  street.reset();
   current = null;
   history.replaceState(null, "", location.pathname + location.search);
 });
