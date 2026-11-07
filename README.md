@@ -56,7 +56,7 @@ country; the country name must match the name shown in the map tooltip
 | `lat`, `lon` | yes | Where the logo sits on the country map. Right-click a place in Google Maps to copy its coordinates. |
 | `shortName` | no | Label under the logo (defaults to `name`). |
 | `region` | no | Shown under the name. |
-| `logo` | no | Path or URL to a square image. Put files in `assets/logos/`. Without one, a crest with the community's initials is drawn. |
+| `logo` | no | Path or URL to a square image. Put files in `assets/logos/`. Without one, the Ninth Age banner (`assets/banner-logo.webp`) is used. |
 | `description` | no | A sentence or two. |
 | `links` | no | Any number of contacts, see below. |
 
@@ -174,7 +174,8 @@ from it, and `build_minimap.py` reads it so the gold detection keeps working.
 Visitors add themselves from a country's view: the blue plus button turns the
 cursor into a waving banner, a click inside the country plants it, and a form
 asks for a name, at least one of Discord / email / WhatsApp / Facebook, and an
-optional logo (shrunk in the browser to a 256 px square miniature before sending). The code is in [`js/join.js`](js/join.js).
+optional logo (shrunk in the browser to a 256 px square miniature before sending;
+without one, the community gets the Ninth Age banner). The code is in [`js/join.js`](js/join.js).
 
 The form is a [Netlify Form](https://docs.netlify.com/forms/setup/) named
 `community-submission`: entries, with the planted latitude/longitude and the

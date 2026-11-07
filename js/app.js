@@ -517,22 +517,17 @@ function drawMarkers() {
   badge.append("circle").attr("class", "badge-ring").attr("r", MARKER_R + 5);
   badge.each(function (d, i) {
     const g = d3.select(this);
-    if (d.community.logo) {
-      const id = `logo-clip-${i}`;
-      defs.append("clipPath").attr("id", id).append("circle").attr("r", MARKER_R);
-      g.append("circle").attr("class", "badge-bg").attr("r", MARKER_R);
-      g.append("image")
-        .attr("href", d.community.logo)
-        .attr("x", -MARKER_R)
-        .attr("y", -MARKER_R)
-        .attr("width", MARKER_R * 2)
-        .attr("height", MARKER_R * 2)
-        .attr("preserveAspectRatio", "xMidYMid slice")
-        .attr("clip-path", `url(#${id})`);
-    } else {
-      g.append("circle").attr("class", "badge-bg crest").attr("r", MARKER_R);
-      g.append("text").attr("class", "initials").attr("dy", "0.36em").text(initials(d.community.name));
-    }
+    const id = `logo-clip-${i}`;
+    defs.append("clipPath").attr("id", id).append("circle").attr("r", MARKER_R);
+    g.append("circle").attr("class", "badge-bg").attr("r", MARKER_R);
+    g.append("image")
+      .attr("href", logoOf(d.community))
+      .attr("x", -MARKER_R)
+      .attr("y", -MARKER_R)
+      .attr("width", MARKER_R * 2)
+      .attr("height", MARKER_R * 2)
+      .attr("preserveAspectRatio", "xMidYMid slice")
+      .attr("clip-path", `url(#${id})`);
   });
   badge
     .append("text")
@@ -745,27 +740,21 @@ function linkItem(link) {
   return li;
 }
 
-function initials(name) {
-  return name
-    .split(/\s+/)
-    .filter((w) => /^[\p{L}\p{N}]/u.test(w) && !/^(of|the|and|de|la|le|der|die|das|i|w)$/i.test(w))
-    .slice(0, 3)
-    .map((w) => w[0].toUpperCase())
-    .join("");
+// Communities without a logo of their own fly the Ninth Age banner.
+const DEFAULT_LOGO = "assets/banner-logo.webp";
+
+function logoOf(community) {
+  return community.logo || DEFAULT_LOGO;
 }
 
 function logoElement(community, className) {
   const el = document.createElement("span");
   el.className = `logo ${className}`;
   el.setAttribute("aria-hidden", "true");
-  if (community.logo) {
-    const img = document.createElement("img");
-    img.src = community.logo;
-    img.alt = "";
-    el.append(img);
-  } else {
-    el.textContent = initials(community.name);
-  }
+  const img = document.createElement("img");
+  img.src = logoOf(community);
+  img.alt = "";
+  el.append(img);
   return el;
 }
 
