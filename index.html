@@ -104,6 +104,22 @@
         </label>
 
         <label class="field">
+          <span>Type <em>(required)</em></span>
+          <select name="type" required>
+            <option value="" selected disabled>Choose one…</option>
+            <option>Club/Community</option>
+            <option>Store</option>
+            <option>Person</option>
+          </select>
+        </label>
+
+        <fieldset class="field choice" id="join-gaming-space">
+          <legend>Has gaming space? <em>(required)</em></legend>
+          <label><input type="radio" name="gaming_space" value="Yes"> Yes</label>
+          <label><input type="radio" name="gaming_space" value="No"> No</label>
+        </fieldset>
+
+        <label class="field">
           <span>Address <em>(optional)</em></span>
           <input name="address" maxlength="30" autocomplete="street-address" placeholder="e.g. Długa 12, Gdańsk">
         </label>

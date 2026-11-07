@@ -58,6 +58,8 @@ country; the country name must match the name shown in the map tooltip
 | `region` | no | Shown under the name. |
 | `logo` | no | Path or URL to a square image. Put files in `assets/logos/`. Without one, the Ninth Age banner (`assets/banner-logo.webp`) is used. |
 | `description` | no | A sentence or two. |
+| `type` | no | `Club/Community`, `Store` or `Person`, from the submission form (not shown on the map yet). |
+| `gamingSpace` | no | `true` or `false`: whether there is a place to play (not shown on the map yet). |
 | `links` | no | Any number of contacts, see below. |
 
 Each link has a `type`, a `label`, and optionally a `url`. A link without a
@@ -170,7 +172,7 @@ from it, and `build_minimap.py` reads it so the gold detection keeps working.
 
 Visitors add themselves from a country's view: the blue plus button turns the
 cursor into a waving banner, a click inside the country plants it, and a form
-asks for a name, an optional address (up to 30 characters), at least one of Discord / email / WhatsApp / Facebook, optional T9A forum and Discord usernames, an optional comment (up to 200 characters) and an
+asks for a name, a type (Club/Community, Store or Person), whether there is a gaming space, an optional address (up to 30 characters), at least one of Discord / email / WhatsApp / Facebook, optional T9A forum and Discord usernames, an optional comment (up to 200 characters) and an
 optional logo (shrunk in the browser to a 256 px square miniature before sending;
 without one, the community gets the Ninth Age banner). The code is in [`js/join.js`](js/join.js).
 

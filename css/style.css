@@ -954,7 +954,8 @@ a.link:focus-visible {
   color: var(--ink-soft);
 }
 
-.join-form input:not([type="file"]):not([type="hidden"]),
+.join-form input:not([type="file"]):not([type="hidden"]):not([type="radio"]),
+.join-form select,
 .join-form textarea {
   width: 100%;
   padding: 8px 10px;
@@ -970,8 +971,43 @@ a.link:focus-visible {
   resize: vertical;
 }
 
+.join-form select {
+  cursor: pointer;
+}
+
+/* Yes / No side by side under their question. */
+.join-form .choice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.join-form .choice legend {
+  width: 100%;
+  margin-bottom: 4px;
+  padding: 0;
+}
+
+.join-form .choice label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.join-form .choice input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--sea);
+}
+
 .join-form input:focus-visible,
-.join-form textarea:focus-visible {
+.join-form textarea:focus-visible,
+.join-form select:focus-visible {
   outline: 2px solid var(--sea);
   outline-offset: 1px;
 }

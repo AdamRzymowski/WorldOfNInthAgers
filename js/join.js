@@ -174,6 +174,10 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
     const { elements } = form;
     for (const key of ["name", "address", "forum_username", "discord_username", "comment", ...CONTACTS]) elements[key].value = elements[key].value.trim();
     if (!elements.name.value) return showError("Please give a name.", elements.name), false;
+    if (!elements.type.value) return showError("Choose a type: Club/Community, Store or Person.", elements.type), false;
+    if (!elements.gaming_space.value) {
+      return showError("Say whether there's a gaming space.", elements.gaming_space[0]), false;
+    }
     if (!CONTACTS.some((key) => elements[key].value)) {
       return showError("Add at least one way to reach you: Discord, email, WhatsApp or Facebook.", elements.discord), false;
     }
