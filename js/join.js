@@ -3,7 +3,8 @@
 
 const MAX_LOGO_BYTES = 15 * 1024 * 1024; // the original; what's sent is the small miniature
 const MINIATURE = 256; // px, square: the size community markers are drawn from
-const CONTACTS = ["discord", "email", "whatsapp", "facebook"];
+// Everything in "How can people reach you?": at least one is needed.
+const CONTACTS = ["discord", "email", "whatsapp", "facebook", "website", "forum_username", "discord_username"];
 const MAX_LENGTH = { name: 100, address: 100, discord: 50, email: 50, forum_username: 50, discord_username: 38, website: 200, comment: 200 };
 const LOGO_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
 // An invite link: discord.gg/<code> or discord.com/invite/<code>, with or without https://.
@@ -180,12 +181,16 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
     return field.closest("fieldset") ?? field.closest(".field");
   }
 
+  // The note goes right under the section's heading (a fieldset's legend),
+  // so it's the heading that reads as required, not the last field in it.
   function markRequired(section) {
     section.classList.add("missing");
     const note = document.createElement("p");
     note.className = "required-note";
     note.textContent = "This section is required";
-    section.append(note);
+    const legend = section.querySelector(":scope > legend");
+    if (legend) legend.after(note);
+    else section.append(note);
   }
 
   function clearRequired(section) {
@@ -209,7 +214,7 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
 
   function validate() {
     const { elements } = form;
-    for (const key of ["name", "address", "forum_username", "discord_username", "website", "comment", ...CONTACTS]) elements[key].value = elements[key].value.trim();
+    for (const key of ["name", "address", "comment", ...CONTACTS]) elements[key].value = elements[key].value.trim();
     // Every required section left empty gets its own red note at once.
     const missing = [
       [!elements.name.value, elements.name],

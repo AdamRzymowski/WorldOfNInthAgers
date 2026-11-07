@@ -1264,14 +1264,20 @@ a.link:focus-visible {
 }
 
 /* A required section left empty: red outline and a note under it. */
-.join-form .missing input:not([type="radio"]),
-.join-form .missing select {
+.join-form .field.missing input:not([type="radio"]),
+.join-form .field.missing select {
   border-color: var(--blood);
   box-shadow: 0 0 0 2px rgb(139 26 16 / 0.25);
 }
 
+/* For a section of several fields it's the heading that's required. */
+.join-form .missing > legend {
+  color: var(--blood);
+}
+
 .join-form fieldset.missing.contacts {
-  border-color: var(--blood);
+  border: 2px solid var(--blood);
+  box-shadow: 0 0 0 2px rgb(139 26 16 / 0.2);
 }
 
 .required-note {
