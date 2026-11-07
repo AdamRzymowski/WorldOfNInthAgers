@@ -51,7 +51,8 @@ When the user says this:
 ## Adding a submission
 
 Put it under its country in `data/communities.json` with
-`name`, `lat`, `lon`, `region` from its City/Town/Village (if given) and a
+`name`, `lat`, `lon`, `region` from its City/Town/Village (if given), `description` from its extra
+comment (if given and it reads as one; otherwise just show it to the user) and a
 link per contact (`discord`, `email`, `whatsapp`,
 `facebook`; a value that isn't a link becomes a label with no `url`). If it
 has a logo, download it into `assets/logos/<slug>.webp` and set `logo`;

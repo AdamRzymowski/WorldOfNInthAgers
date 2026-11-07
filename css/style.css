@@ -949,7 +949,8 @@ a.link:focus-visible {
   color: var(--ink-soft);
 }
 
-.join-form input:not([type="file"]):not([type="hidden"]) {
+.join-form input:not([type="file"]):not([type="hidden"]),
+.join-form textarea {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid var(--ink-soft);
@@ -960,7 +961,12 @@ a.link:focus-visible {
   font-size: 16px;
 }
 
-.join-form input:focus-visible {
+.join-form textarea {
+  resize: vertical;
+}
+
+.join-form input:focus-visible,
+.join-form textarea:focus-visible {
   outline: 2px solid var(--sea);
   outline-offset: 1px;
 }
