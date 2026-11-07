@@ -124,7 +124,8 @@ smooth = hl.get("smooth", 3)
 h, s, v = (box_mean(hsv[..., i], smooth) for i in range(3))
 lo, hi = hl.get("hue", [24, 40])
 rgb_full = np.asarray(art).astype(int)
-usable = (v >= 170) & (h >= lo) & (h <= hi) & ~dilate(decoration, 3)
+# "dark_land" for maps whose featured country is painted in dark greens.
+usable = (v >= hl.get("dark_land", 170)) & (h >= lo) & (h <= hi) & ~dilate(decoration, 3)
 
 
 def otsu(values):
