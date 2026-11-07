@@ -1092,8 +1092,20 @@ a.link:focus-visible {
     font-size: 16px;
   }
 
+  /* The home page fills the phone screen, centred top to bottom. */
   .world {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100svh;
     padding: 8px;
+  }
+
+  /* Taller than the artwork: the map shows its middle slice at full height
+     (see fitWorldView in app.js). */
+  .world-map {
+    height: min(118vw, 62svh);
+    aspect-ratio: auto;
   }
 
   .parchment {
@@ -1131,8 +1143,15 @@ a.link:focus-visible {
   }
 
   .join-cta p {
-    font-size: 11px;
+    font-size: 13px;
     text-align: left;
+  }
+
+  .join-button {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    font-size: 34px;
   }
 
   .t9a-link::before {
@@ -1140,17 +1159,29 @@ a.link:focus-visible {
   }
 
   .t9a-link img {
-    width: 34px;
+    width: 44px;
   }
 
   .t9a-link span {
-    font-size: 12px;
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  .map-controls {
+    bottom: 10px;
+    gap: 8px;
   }
 
   .map-controls button {
-    width: 28px;
-    height: 28px;
-    font-size: 15px;
+    width: 46px;
+    height: 46px;
+    font-size: 24px;
+  }
+
+  .country-search input,
+  .country-search button {
+    padding: 11px 14px;
+    font-size: 17px;
   }
 }
 

@@ -128,8 +128,8 @@ stage
   .on("focus", (event, f) => {
     setHover(f);
     const [x, y] = d3.zoomTransform(worldSvg.node()).apply(sealPoint(f));
-    const box = worldSvg.node().getBoundingClientRect();
-    showTooltip(f, box.left + (x / W) * box.width, box.top + (y / H) * box.height);
+    const point = new DOMPoint(x, y).matrixTransform(worldSvg.node().getScreenCTM());
+    showTooltip(f, point.x, point.y);
   })
   .on("blur", () => setHover(null))
   .on("keydown", (event, f) => {
@@ -252,6 +252,25 @@ const worldZoom = d3
 
 worldSvg.call(worldZoom);
 placeSeals(1);
+
+// On phones the map frame is taller than the artwork, so instead of shrinking
+// the whole world to fit, show the middle slice of it at full height. The
+// rest is a drag away: the zoom keeps the whole map as its pan limits.
+function fitWorldView() {
+  const svg = worldSvg.node();
+  const aspect = svg.clientWidth / svg.clientHeight;
+  const w = aspect < W / H ? H * aspect : W;
+  const x = (W - w) / 2;
+  worldSvg.attr("viewBox", `${x} 0 ${w} ${H}`);
+  worldZoom.extent([
+    [x, 0],
+    [x + w, H],
+  ]);
+  worldSvg.call(worldZoom.transform, d3.zoomTransform(svg)); // re-clamp to the new view
+}
+
+fitWorldView();
+new ResizeObserver(fitWorldView).observe(worldSvg.node());
 
 document.querySelectorAll("[data-zoom]").forEach((button) =>
   button.addEventListener("click", () => {
