@@ -1,5 +1,141 @@
 {
   "country": "Poland",
   "image": "assets/country-maps/poland.webp",
-  "regions": []
+  "highlight": {
+    "hue": [
+      36,
+      95
+    ],
+    "min_saturation": 150,
+    "min_value": 40,
+    "dark_land": 40,
+    "smooth": 5,
+    "bridge": 6,
+    "max_hole": 200000
+  },
+  "foreign_gold": false,
+  "skip_decorations": [
+    "crest and name"
+  ],
+  "extra_decorations": {
+    "crest": [
+      [
+        80,
+        70
+      ],
+      [
+        425,
+        70
+      ],
+      [
+        425,
+        285
+      ],
+      [
+        405,
+        370
+      ],
+      [
+        340,
+        400
+      ],
+      [
+        80,
+        415
+      ]
+    ],
+    "ship left": [
+      [
+        415,
+        85
+      ],
+      [
+        550,
+        85
+      ],
+      [
+        550,
+        220
+      ],
+      [
+        415,
+        220
+      ]
+    ],
+    "ship right": [
+      [
+        800,
+        80
+      ],
+      [
+        930,
+        80
+      ],
+      [
+        930,
+        215
+      ],
+      [
+        800,
+        215
+      ]
+    ]
+  },
+  "regions": [
+    [
+      150,
+      450,
+      "Germany"
+    ],
+    [
+      300,
+      600,
+      "Germany"
+    ],
+    [
+      200,
+      850,
+      "Czechia"
+    ],
+    [
+      500,
+      850,
+      "Czechia"
+    ],
+    [
+      900,
+      905,
+      "Slovakia"
+    ],
+    [
+      1350,
+      650,
+      "Ukraine"
+    ],
+    [
+      1300,
+      900,
+      "Ukraine"
+    ],
+    [
+      1350,
+      350,
+      "Belarus"
+    ],
+    [
+      1050,
+      160,
+      "Russia"
+    ],
+    [
+      1340,
+      90,
+      "Lithuania"
+    ],
+    [
+      300,
+      50,
+      null
+    ]
+  ]
 }

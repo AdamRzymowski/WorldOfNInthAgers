@@ -1,5 +1,76 @@
 {
   "country": "Germany",
   "image": "assets/country-maps/germany.webp",
-  "regions": []
+  "highlight": {
+    "hue": [
+      36,
+      95
+    ],
+    "min_saturation": 150,
+    "min_value": 40,
+    "dark_land": 40,
+    "smooth": 5,
+    "bridge": 6,
+    "max_hole": 200000
+  },
+  "foreign_gold": false,
+  "skip_decorations": [
+    "crest and name"
+  ],
+  "extra_decorations": {
+    "crest": [
+      [
+        80,
+        70
+      ],
+      [
+        425,
+        70
+      ],
+      [
+        425,
+        418
+      ],
+      [
+        80,
+        418
+      ]
+    ],
+    "ship left": [
+      [
+        410,
+        105
+      ],
+      [
+        535,
+        105
+      ],
+      [
+        535,
+        250
+      ],
+      [
+        410,
+        250
+      ]
+    ],
+    "ship right": [
+      [
+        1115,
+        105
+      ],
+      [
+        1265,
+        105
+      ],
+      [
+        1265,
+        245
+      ],
+      [
+        1115,
+        245
+      ]
+    ]
+  }
 }
