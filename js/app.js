@@ -787,11 +787,13 @@ function linkItem(link) {
   return li;
 }
 
-// Communities without a logo of their own fly the Ninth Age banner.
+// Without a logo of their own: a banner-bearing knight for a person, a
+// merchant's house for a store, and the Ninth Age banner for everyone else.
+const DEFAULT_LOGOS = { Person: "assets/knight-logo.webp", Store: "assets/store-logo.webp" };
 const DEFAULT_LOGO = "assets/banner-logo.webp";
 
 function logoOf(community) {
-  return community.logo || DEFAULT_LOGO;
+  return community.logo || DEFAULT_LOGOS[community.type] || DEFAULT_LOGO;
 }
 
 function logoElement(community, className) {

@@ -56,7 +56,7 @@ country; the country name must match the name shown in the map tooltip
 | `lat`, `lon` | yes | Where the logo sits on the country map. Right-click a place in Google Maps to copy its coordinates. |
 | `shortName` | no | Label under the logo (defaults to `name`). |
 | `region` | no | Shown under the name. |
-| `logo` | no | Path or URL to a square image. Put files in `assets/logos/`. Without one, the Ninth Age banner (`assets/banner-logo.webp`) is used. |
+| `logo` | no | Path or URL to a square image. Put files in `assets/logos/`. Without one: a knight for a `Person`, a merchant's house for a `Store`, otherwise the Ninth Age banner (`assets/*-logo.webp`). |
 | `description` | no | A sentence or two. |
 | `type` | no | `Club/Community`, `Store` or `Person`, shown as a tag on the card. |
 | `gamingSpace` | no | `true` or `false`: whether there is a place to play. |

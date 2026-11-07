@@ -66,7 +66,8 @@ Put it under its country in `data/communities.json` with:
   `website` for its website; a value that isn't a link becomes a label with
   no `url`;
 - `logo`, if it sent one: download it into `assets/logos/<slug>.webp`.
-  Without one the Ninth Age banner is used.
+  Without one the site picks a default by `type`: a knight for a Person, a
+  merchant's house for a Store, the Ninth Age banner otherwise.
 
 The community card shows all of these.
 
