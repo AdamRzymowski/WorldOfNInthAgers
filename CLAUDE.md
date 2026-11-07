@@ -19,7 +19,7 @@ copied into `data/communities.json`. So before any push to GitHub (on every
    that country has an entry with the same name at the same latitude/longitude
    (to 4 decimals).
 3. List every submission that is not on the map yet: name, country,
-   location, contacts, whether it has a logo, and when it arrived. If there
+   location, contacts, T9A forum and Discord usernames, whether it has a logo, and when it arrived. If there
    are none, say so in one line.
 4. Wait for the user to decide on each one: add it to the map, leave it
    pending, or mark it as spam / delete it in Netlify. Don't add, delete or

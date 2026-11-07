@@ -4,9 +4,12 @@
 const MAX_LOGO_BYTES = 15 * 1024 * 1024; // the original; what's sent is the small miniature
 const MINIATURE = 256; // px, square: the size community markers are drawn from
 const CONTACTS = ["discord", "email", "whatsapp", "facebook"];
-const MAX_LENGTH = { name: 100, address: 30, discord: 50, email: 50, comment: 200 };
+const MAX_LENGTH = { name: 100, address: 30, discord: 50, email: 50, forum_username: 50, discord_username: 38, comment: 200 };
 const LOGO_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
 // An invite link: discord.gg/<code> or discord.com/invite/<code>, with or without https://.
+// 2–32 of letters, digits, _ and . (Discord's own rule), with an optional
+// leading @ and the old #1234 tag still accepted.
+const DISCORD_USERNAME = /^@?[a-z0-9_.]{2,32}(#\d{4})?$/i;
 const DISCORD_INVITE = /^(https?:\/\/)?(www\.)?(discord\.gg|discord(app)?\.com\/invite)\/[a-z0-9-]{2,32}\/?$/i;
 
 // countrySvg/mapLayer: the country view's d3 selections. getCurrent() returns
@@ -169,19 +172,22 @@ export function setupJoin({ countrySvg, mapLayer, mapWrap, getCurrent, getCanvas
 
   function validate() {
     const { elements } = form;
-    for (const key of ["name", "address", "comment", ...CONTACTS]) elements[key].value = elements[key].value.trim();
+    for (const key of ["name", "address", "forum_username", "discord_username", "comment", ...CONTACTS]) elements[key].value = elements[key].value.trim();
     if (!elements.name.value) return showError("Please give a name.", elements.name), false;
     if (!CONTACTS.some((key) => elements[key].value)) {
       return showError("Add at least one way to reach you: Discord, email, WhatsApp or Facebook.", elements.discord), false;
     }
     for (const [key, max] of Object.entries(MAX_LENGTH)) {
       if (elements[key].value.length > max) {
-        const label = { name: "The name", address: "The address", comment: "The extra comment", discord: "The Discord link", email: "The email address" }[key];
+        const label = { name: "The name", address: "The address", forum_username: "The T9A forum username", discord_username: "The Discord username", comment: "The extra comment", discord: "The Discord link", email: "The email address" }[key];
         return showError(`${label} can be at most ${max} characters.`, elements[key]), false;
       }
     }
     if (elements.discord.value && !DISCORD_INVITE.test(elements.discord.value)) {
       return showError("The Discord link should be an invite, like https://discord.gg/abc123.", elements.discord), false;
+    }
+    if (elements.discord_username.value && !DISCORD_USERNAME.test(elements.discord_username.value)) {
+      return showError("A Discord username has only letters, numbers, _ and . (like klub_gargulec).", elements.discord_username), false;
     }
     if (elements.email.value && !isEmail(elements.email.value)) {
       return showError("That email address doesn't look right.", elements.email), false;
