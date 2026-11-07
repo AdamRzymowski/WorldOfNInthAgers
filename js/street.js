@@ -1,4 +1,4 @@
-// "Street map": a real OpenStreetMap view of the open country (via Leaflet,
+// "Real World View": a real OpenStreetMap view of the open country (via Leaflet,
 // loaded in index.html), in place of the painted map. Visitors can find their
 // town or address and plant their banner on the exact spot.
 
@@ -70,7 +70,7 @@ export function setupStreetMap({ mapWrap, join, getCurrent, getBounds, showCommu
     container.hidden = !street;
     search.hidden = !street;
     toggle.setAttribute("aria-pressed", String(street));
-    toggle.textContent = street ? "Painted map" : "Street map";
+    toggle.textContent = street ? "Painted Map View" : "Real World View";
     if (!street) return;
     if (!map) createMap();
     map.invalidateSize();

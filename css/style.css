@@ -791,7 +791,6 @@ a.link:focus-visible {
   pointer-events: auto;
 }
 
-.view-toggle,
 .street-search button {
   padding: 7px 12px;
   border: 1px solid var(--gold);
@@ -804,9 +803,39 @@ a.link:focus-visible {
   box-shadow: 0 2px 6px rgb(0 0 0 / 0.4);
 }
 
-.view-toggle:hover,
 .street-search button:hover {
   background: var(--blood);
+}
+
+/* The big switch between the painting and the real map. */
+.view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px 10px 12px;
+  border: 2px solid var(--parchment-light);
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, var(--sea-light), var(--sea) 70%);
+  color: #fff;
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 0 2px rgb(20 12 6 / 0.6), 0 4px 12px rgb(0 0 0 / 0.5);
+  transition: transform 0.15s;
+}
+
+.view-toggle::before {
+  content: "";
+  width: 26px;
+  height: 26px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.view-toggle:hover,
+.view-toggle:focus-visible {
+  transform: scale(1.05);
 }
 
 .street-search {

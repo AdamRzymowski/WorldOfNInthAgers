@@ -4,7 +4,7 @@
 const MAX_LOGO_BYTES = 15 * 1024 * 1024; // the original; what's sent is the small miniature
 const MINIATURE = 256; // px, square: the size community markers are drawn from
 const CONTACTS = ["discord", "email", "whatsapp", "facebook"];
-const MAX_LENGTH = { name: 100, address: 30, discord: 50, email: 50, forum_username: 50, discord_username: 38, website: 200, comment: 200 };
+const MAX_LENGTH = { name: 100, address: 100, discord: 50, email: 50, forum_username: 50, discord_username: 38, website: 200, comment: 200 };
 const LOGO_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
 // An invite link: discord.gg/<code> or discord.com/invite/<code>, with or without https://.
 // 2–32 of letters, digits, _ and . (Discord's own rule), with an optional
